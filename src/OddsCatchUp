@@ -1,0 +1,29 @@
+INPUT "Anzahl der verbleibenden Spiele:",n
+INPUT "A: Punkte/vergebene Punkte:",p1
+INPUT "B: Punkte/vergebene Punkte:",p2
+w=n+1
+WHILE n<w
+INPUT "Punkte, die A gegenüber B aufholen muß:",w
+WEND
+PRINT
+v#=0
+FOR a=0 TO n
+IF n-a=>w THEN
+FOR b=a+w TO n
+CALL uber(n,a,p2)
+n#=f#
+CALL uber(n,b,p1)
+v#=f#*n#+v#
+NEXT b
+END IF
+NEXT a
+PRINT "1 :"1/v#
+SUB uber(e,g,h) STATIC
+SHARED f#
+f#=1
+FOR i=1 TO e
+f#=f#*i:IF i<=g THEN f#=f#/i
+IF i<=e-g THEN f#=f#/i
+NEXT i
+f#=f#*h^g*(1-h)^(e-g)
+END SUB

@@ -1,0 +1,21 @@
+SCREEN 2,320,250,1,1
+WINDOW 2,,,0,2
+n=200:p=1/2
+nn=n/2
+CALL uber(n,nn,p)
+k=0
+fact=200/f#
+PSET (0,200),1
+FOR k=0 TO n
+CALL uber(n,k,p)
+LINE -(k,200-f#*fact),1
+NEXT k
+SUB uber(e,g,h) STATIC
+SHARED f#
+f#=1
+FOR i=1 TO e
+f#=f#*i:IF i<=g THEN f#=f#/i
+IF i<=e-g THEN f#=f#/i
+NEXT i
+f#=f#*h^g*(1-h)^(e-g)
+END SUB

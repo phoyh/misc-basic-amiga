@@ -1,0 +1,38 @@
+e0=8.85/10^12
+pi=3.1425
+qpx=150
+qpy=250
+qmx=450
+qmy=250
+Qpl=.000003
+Qmi=.000001
+vx=0
+vy=0
+Zeitabschnitt=7
+SCREEN 2,640,512,2,4
+WINDOW 2,,,0,2
+CIRCLE (qpx,qpy),ABS(Qpl)*10000000&,(5-SGN(Qpl))/2
+CIRCLE (qmx,qmy),ABS(Qmi)*10000000&,(5-SGN(Qmi))/2
+PAINT (qpx,qpy),(5-SGN(Qpl))/2
+PAINT (qmx,qmy),(5-SGN(Qmi))/2
+dgt:
+IF MOUSE(0)<>0 THEN dgt
+gt:
+IF MOUSE(0)=0 THEN gt
+x=MOUSE(3)
+y=MOUSE(4)
+kd:
+d1=SQR((x-qpx)^2+(y-qpy)^2)
+d2=SQR((x-qmx)^2+(y-qmy)^2)
+a1=Qpl/4/pi/e0/d1
+a2=Qmi/4/pi/e0/d2
+ax=(x-qpx)/d1*a1+(x-qmx)/d2*a2
+ay=(y-qpy)/d1*a1+(y-qmy)/d2*a2
+x=x+vx/Zeitabschnitt
+y=y+vy/Zeitabschnitt
+vx=ax/Zeitabschnitt
+vy=ay/Zeitabschnitt
+IF POINT(x,y)>1 THEN dgt
+IF x>600 OR x<0 OR y>500 OR y<0 THEN dgt
+PSET (x,y),1
+GOTO kd

@@ -1,0 +1,49 @@
+LIBRARY "/bmaps/exec.library"
+LIBRARY "diskfont.library"
+LIBRARY "/bmaps/graphics.library"
+DECLARE FUNCTION OpenDiskFont& LIBRARY
+DECLARE FUNCTION AllocMem& LIBRARY
+DIM k$(23)
+Zeiger&=AllocMem&(8,65538&)
+POKEL Zeiger&,SADD("Helvetica.font"+CHR$(0))
+POKEW Zeiger&+4,24
+POKE Zeiger&+6,0
+POKE Zeiger&+7,0
+o&=OpenDiskFont&(Zeiger&)
+SCREEN 2,320,200,3,1
+WINDOW 2,,,0,2
+SetFont WINDOW(8),o&
+OPEN "ram:Hel24Stars" FOR OUTPUT AS 1
+FOR pp=32 TO 131
+p=pp
+IF pp=123 THEN p=169
+IF pp=124 THEN p=196
+IF pp=125 THEN p=203
+IF pp=126 THEN p=220
+IF pp=127 THEN p=223
+IF pp=128 THEN p=228
+IF pp=129 THEN p=246
+IF pp=130 THEN p=247
+IF pp=131 THEN p=252
+CLS
+LOCATE 1,1
+PRINT CHR$(p)
+FOR y=0 TO 23
+FOR x=0 TO 15
+l=POINT(x,y)
+IF l=0 THEN k$(y)=k$(y)+"0"
+IF l=1 THEN k$(y)=k$(y)+"1"
+nx:
+NEXT x,y
+PRINT #1,"Hel24"+RIGHT$(STR$(p),LEN(STR$(p))-1);
+FOR ii=0 TO 23
+PRINT #1,CHR$(9)+"dc.w"+CHR$(9)+"%"+k$(ii)
+NEXT ii
+FOR oo=0 TO 23
+k$(oo)=""
+NEXT oo
+NEXT pp
+CLOSE 1
+CloseFont o&
+FreeMem Zeiger&,8
+LIBRARY CLOSE

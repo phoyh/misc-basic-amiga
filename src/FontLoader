@@ -1,0 +1,20 @@
+LIBRARY "/bmaps/exec.library"
+LIBRARY "diskfont.library"
+LIBRARY "/bmaps/graphics.library"
+DECLARE FUNCTION OpenDiskFont& LIBRARY
+DECLARE FUNCTION AllocMem& LIBRARY
+h$="opal"
+WHILE h$<>""
+Zeiger&=AllocMem&(8,65538&)
+POKEL Zeiger&,SADD(h$+".font"+CHR$(0))
+POKEW Zeiger&+4,8
+POKE Zeiger&+6,0
+POKE Zeiger&+7,0
+Opal&=OpenDiskFont&(Zeiger&)
+SetFont WINDOW(8),Opal&
+PRINT "This is the "+h$+" font! What next?"
+INPUT "",h$
+CloseFont Opal&
+FreeMem Zeiger&,8
+WEND
+LIBRARY CLOSE

@@ -1,0 +1,37 @@
+SCREEN 2,320,256,1,1
+WINDOW 2,,,0,2
+r=100
+pi=3.141593
+p=12
+FOR x=1 TO 199
+d=SQR(r^2-(r-x)^2)
+ymin=r-d
+ymax=r+d
+d1=CINT(r-d)
+d2=CINT(r+d)
+FOR y=d1 TO d2
+PSET (x+55,y),1
+NEXT y
+NEXT x
+LIBRARY "df0:bmaps/dos.library"
+DECLARE FUNCTION LoadSeg& LIBRARY
+DECLARE FUNCTION UnLoadSeg& LIBRARY
+Win&=WINDOW(7)
+PicName$="ram:cfw"+CHR$(0)
+PicName&=SADD(PicName$)
+MspPrg$="Programmdiskette_III:devs/point"
+LoadMSP MspPrg$,LoadPic&
+CALL LoadPic& (Win&,PicName&)
+ClearMSP LoadPic&
+SUB LoadMSP (File$,Adresse&) STATIC
+File$=File$+CHR$(0)
+Segment&=LoadSeg& (SADD(File$))
+IF Segment&<1 THEN EXIT SUB
+Adresse&=(Segment&+1)*4
+END SUB
+SUB ClearMSP (Adresse&) STATIC
+Segment&=(Adresse&/4)-1
+Ergebnis&=UnLoadSeg& (Segment&)
+END SUB
+LIBRARY CLOSE
+

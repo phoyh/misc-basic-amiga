@@ -1,0 +1,165 @@
+CLEAR ,200000&,20000
+
+LIBRARY "/bmaps/graphics.library"
+
+Vorbereitungen:
+ ON ERROR GOTO Fehlerbehandlung
+ WINDOW 1,"IFF => Image",(0,0)-(631,186),30
+ RastPort&=WINDOW(8)
+
+Aufbau: 
+ CLS
+ COLOR 1,0 
+ POKE RastPort&+56,3  
+ LOCATE 2,31 : PRINT " IFF => Image "
+ POKE RastPort&+56,0
+ LINE (97,158)-(509,169),1,b
+ LOCATE 21,15 : PRINT "Status:"
+ LOCATE 21,23 : PRINT SPACE$(40)
+
+EingabeQuelle:
+ LOCATE 5,2 : COLOR 1
+ PRINT "Name des IFF-Pinsels: ";
+ ClearEOL& RastPort&
+ INPUT "",BrushName$
+ OPEN BrushName$ FOR INPUT AS 1
+ IF Flag=1 THEN LOCATE 21,23 : PRINT SPACE$(40) : Flag=0
+
+EingabeZiel:
+ LOCATE 6,2 : COLOR 1
+ ClearEOL& RastPort&
+ PRINT "Name des zu erzeugenden DATA-Files: ";
+ ClearEOL& RastPort&
+ INPUT "",DataFile$
+ OPEN DataFile$ FOR OUTPUT AS 2
+
+ Bit%=2
+ Antwort$="J"
+
+BrushHeaderLesen:
+ Brush$=INPUT$(40,1)
+ ILBM$=MID$(Brush$,9,4)
+ IF ILBM$<>"ILBM" THEN
+   LOCATE 21,23 : COLOR 3
+   PRINT "File ist keine ILBM-Datei !" : GOTO Ende
+ END IF  
+ breite%=CVI(MID$(Brush$,21,2))
+ hoehe%=CVI(MID$(Brush$,23,2))
+ tiefe%=ASC(MID$(Brush$,29,1))
+ Compression%=ASC(MID$(Brush$,31,1))
+ BytesPerRow%=(FIX(breite%/16-.001)+1)*2   
+ f$=INPUT$(8,1)
+ DIM pal(2^tiefe%-1,2)
+ FOR io=0 TO 2^tiefe%-1
+ FOR oi=0 TO 2
+ pal(io,oi)=ASC(INPUT$(1,1))
+ NEXT oi,io
+ WHILE Bo$+dy$<>"BODY"
+   Bo$=INPUT$(2,1) : dy$=INPUT$(2,1)
+   IF dy$="BO" THEN
+     IF INPUT$(2,1)="DY" THEN Bo$="BO" : dy$="DY"
+   END IF
+ WEND
+ Dummy$=INPUT$(4,1)
+
+BrushBodyLesen: 
+ FOR y%=0 TO hoehe%-1
+   FOR z%=0 TO tiefe%-1
+     IF Compression%=0 THEN
+       Plane$(z%)=Plane$(z%)+INPUT$(BytesPerRow%,1)
+     ELSE
+       WHILE LEN(Plane$(z%))<BytesPerRow%*(y%+1)
+         Byte%=ASC(INPUT$(1,1)) 
+         IF Byte%>-1 AND Byte%<128 THEN
+           Plane$(z%)=Plane$(z%)+INPUT$(Byte%+1,1)
+         ELSE
+           Plane$(z%)=Plane$(z%)+STRING$(257-Byte%,INPUT$(1,1))
+         END IF
+       WEND               
+     END IF
+   NEXT z%
+ NEXT y%         
+
+Vorbereitungen:
+ LOCATE 21,23
+ PRINT "Bitte warten - "
+ FOR z%=0 TO tiefe%-1
+   l#=LEN(Plane$(z%))
+   IF ((l#/2) <> INT(l#/2)) THEN
+     Plane$(z%)=Plane$(z%)+CHR$(0)
+   END IF
+ NEXT z%
+ 
+DatenSchreiben:
+ PRINT #2,MKI$(breite%);MKI$(hoehe%);
+ o=tiefe%
+ PRINT #2,CHR$(o);
+ l=1:IF breite%>350 THEN l=l+1
+ IF hoehe%>265 THEN l=l+2
+ PRINT #2,CHR$(l);
+ FOR oi=0 TO 2^tiefe%-1
+ m%=pal(oi,0)*16+pal(oi,1)+pal(oi,2)/16
+ PRINT #2,MKI$(m%);
+ NEXT oi
+ PRINT #2,MKI$(LEN(Plane$(0)));
+ FOR z=0 TO tiefe%-1
+ PRINT #2,Plane$(z);
+ NEXT z
+    
+FileEnde: 
+ LOCATE 21,23
+ PRINT ">>> DATAs wurden gespeichert <<<"+SPACE$(8)
+
+Ende:
+ CLOSE
+ LOCATE 17,2 : COLOR 1
+ PRINT "Weitere Konvertierungen (J/N): ";
+ WaitKey "JjNn",KonvJN$
+ KonvJN$=UCASE$(KonvJN$)
+ PRINT KonvJN$
+ IF KonvJN$="J" THEN Aufbau  
+ LIBRARY CLOSE 
+ SYSTEM
+
+' **** UNTERPROGRAMM und SUBPROGRAMM ****
+
+Fehlerbehandlung: 
+ IF ERR=49 OR ERR=53 OR ERR=55 OR ERR=68 OR ERR=70 THEN
+   Zeile=CSRLIN : Flag=1
+   LOCATE 21,23 : PRINT SPACE$(40)
+   LOCATE 21,23: COLOR 3 : BEEP
+   IF ERR=49 THEN
+     PRINT "Diskette nicht verfügbar !"
+     IF Zeile=6 THEN RESUME EingabeQuelle ELSE RESUME EingabeZiel
+   END IF     
+   IF ERR=53 THEN
+     PRINT "Quelldatei nicht gefunden !" : RESUME EingabeQuelle
+   END IF
+   IF ERR=55 THEN
+     PRINT "File bereits geöffnet !"
+     IF Zeile=6 THEN RESUME EingabeQuelle ELSE RESUME EingabeZiel
+   END IF     
+   IF ERR=68 THEN
+     PRINT "Device nicht verfügbar !" 
+     IF Zeile=6 THEN RESUME EingabeQuelle ELSE RESUME EingabeZiel
+   END IF  
+   IF ERR=70 THEN
+     PRINT "Diskette ist schreibgeschützt !" : RESUME EingabeZiel
+   END IF
+   BEEP : PRINT a$ : COLOR 1 
+ ELSE
+   ON ERROR GOTO 0
+ END IF
+RESUME
+
+SUB WaitKey (Code$,Key$) STATIC
+  IF Code$<>"" THEN
+    WHILE a%=0 OR Taste$=""
+      Taste$=INKEY$  
+      a%=INSTR(Code$,Taste$)
+    WEND
+  ELSE
+    WHILE INKEY$="" : WEND       
+  END IF
+  Key$=Taste$ : Taste$="" : a%=0
+END SUB

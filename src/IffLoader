@@ -1,0 +1,42 @@
+OPEN "brushs:mauer" FOR INPUT AS 1
+k$=INPUT$(20,1)
+breite%=CVI(INPUT$(2,1))
+hoehe%=CVI(INPUT$(2,1))
+k$=INPUT$(4,1)
+tiefe=ASC(INPUT$(1,1))
+k$=INPUT$(1,1)
+comp=ASC(INPUT$(1,1))
+row%=40
+k$=INPUT$(4,1)
+PRINT("waiting for body")
+hc:
+k$=RIGHT$(k$,3)+INPUT$(1,1):IF k$<>"BODY" THEN hc
+FOR y=1 TO hoehe%
+PRINT("Line ");
+PRINT(y);
+PRINT(" of ");
+PRINT(hoehe%)
+FOR z=1 TO tiefe
+IF comp=0 THEN Plane$(z)=Plane$(z)+INPUT$(row%,1)
+IF comp=1 THEN
+k%=0
+lv:
+IF k%<row% THEN
+Byte=ASC(INPUT$(1,1))
+IF Byte>-1 AND Byte<128 THEN Plane$(z)=Plane$(z)+INPUT$(Byte+1,1):k%=k%+Byte+1
+IF Byte>127 THEN k$=INPUT$(1,1):FOR l=1 TO 257-Byte:Plane$(z)=Plane$(z)+k$:NEXT l:k%=k%+257-Byte
+GOTO lv
+END IF
+END IF
+NEXT z,y
+SCREEN 2,breite%,hoehe%,tiefe%,1
+WINDOW 2,,,0,2
+RastPort&=PEEKL(WINDOW(7)+46)
+RastPort&=PEEKL(RastPort&+88)
+FOR j=0 TO tiefe%-1
+k&=VARPTR(file$(j))
+i&=PEEKL(RastPort&+j*4+8)
+FOR jj=0 TO INT(LEN(file$(j))/4+.5)
+POKEL i&,PEEKL(k&)
+NEXT jj,j
+CLOSE 1

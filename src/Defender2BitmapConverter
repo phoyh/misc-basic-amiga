@@ -1,0 +1,61 @@
+nome$="defender2:gmap.scene"
+speichername$="RAM:ght"
+LIBRARY "/bmaps/dos.library"
+LIBRARY "/bmaps/graphics.library"
+DECLARE FUNCTION LoadRGB4& LIBRARY
+DECLARE FUNCTION xOpen& LIBRARY
+DECLARE FUNCTION xRead& LIBRARY
+DECLARE FUNCTION xClose& LIBRARY
+DECLARE FUNCTION LoadSeg& LIBRARY
+DECLARE FUNCTION UnLoadSeg& LIBRARY
+Handler&=xOpen&(SADD(nome$+CHR$(0)),1005)
+SCREEN 2,320,200,5,1
+WINDOW 2,,,0,2
+RastPort&=PEEKL(WINDOW(7)+46)
+RastPort&=PEEKL(RastPort&+88)
+FOR j=0 TO 4
+BitAdress&(j)=PEEKL(RastPort&+j*4+8)
+NEXT j
+Laenge&=10
+g&=xRead&(Handler&,BitAdress&(0),Laenge&)
+BitLaenge&=8000
+FOR j=0 TO 4
+g&=xRead&(Handler&,BitAdress&(j),BitLaenge&)
+NEXT j
+ColorMap&=PEEKL(WINDOW(7)+46)
+ViewPort&=ColorMap&+44
+ColorMap&=PEEKL(ColorMap&+48)
+ColorMap&=PEEKL(ColorMap&+4)
+Laenge&=64
+g&=xRead&(Handler&,ColorMap&,Laenge&)
+Farben&=Laenge&/2
+g&=LoadRGB4&(ViewPort&,ColorMap&,Farben&)
+g&=xClose&(Handler&)
+Win&=WINDOW(7)
+PicName$=speichername$+CHR$(0)
+PicName&=SADD(PicName$)
+MspPrg$="RAM:point"
+LoadMSP MspPrg$,LoadPic&
+CALL LoadPic& (Win&,PicName&)
+ClearMSP LoadPic&
+SUB LoadMSP (File$,Adresse&) STATIC
+File$=File$+CHR$(0)
+Segment&=LoadSeg& (SADD(File$))
+IF Segment&<1 THEN EXIT SUB
+Adresse&=(Segment&+1)*4
+END SUB
+SUB ClearMSP (Adresse&) STATIC
+Segment&=(Adresse&/4)-1
+Ergebnis&=UnLoadSeg& (Segment&)
+END SUB
+IF nome$<>"Defender2:gmap.scene" THEN LIBRARY CLOSE:END
+WHILE INKEY$="":WEND
+jvr:
+spei%=PEEKW(ColorMap&+62)
+FOR p=62 TO 46 STEP -2
+POKEW ColorMap&+p,PEEKW(ColorMap&+p-2)
+NEXT p
+POKEW ColorMap&+44,spei%
+g&=LoadRGB4&(ViewPort&,ColorMap&,Farben&)
+WHILE INKEY$="":WEND:GOTO jvr
+LIBRARY CLOSE

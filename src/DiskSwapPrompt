@@ -1,0 +1,96 @@
+SCREEN 2,320,256,1,1
+WINDOW 2,,,0,2
+DECLARE FUNCTION AllocRemember& LIBRARY
+DECLARE FUNCTION ViewPortAddress& LIBRARY
+LIBRARY "/bmaps/graphics.library"
+LIBRARY "/bmaps/intuition.library"
+POKEW WINDOW(7)+98,0
+CALL RefreshWindowFrame&(WINDOW(7))
+PALETTE 0,0,0,0
+PALETTE 1,0,0,0
+COLOR 1,0
+LOCATE 1,1
+PRINT "2"
+FOR i=0 TO 7
+FOR ii=0 TO 7
+LINE (112+ii*10,100+i*10)-(112+ii*10+9,100+i*10+9),POINT(ii,i),bf
+NEXT ii,i
+LOCATE 1,1
+PRINT " "
+COLOR 1,0
+LOCATE 8,11
+PRINT "Please insert Disk"
+DIM l%(23),ll%(23)
+DIM SHARED CopperList&(23)
+FOR k=0 TO 23
+READ l%(k)
+NEXT k
+FOR k=0 TO 23
+READ ll%(k)
+NEXT k
+FOR o=0 TO 23
+InitCopperList 174,o
+FOR Y%=56 TO 62
+CopWait Y%,20,o
+z=o+Y%-56:IF z>23 THEN z=z-24
+CopMove 386,l%(z),o
+NEXT Y%
+FOR Y%=100 TO 179
+CopWait Y%,20,o
+z=Y%-o-100:IF z<0 THEN z=z+24
+IF z>23 THEN z=z-24*(INT(z/24))
+CopMove 386,ll%(z),o
+NEXT Y%
+CopWait 10000,256,o
+NEXT o
+OPEN "ram:Diskdata" FOR OUTPUT AS #1
+FOR gg=0 TO 23
+FOR g=0 TO 702 STEP 2
+PRINT #1,MKI$(PEEKW(CopperList&(gg)+g));
+NEXT g,gg
+CLOSE 1
+dt:
+IF INKEY$<>"" THEN Ende
+FOR o=0 TO 23
+CopperStart WINDOW(7),o
+NEXT o
+GOTO dt
+Ende:
+CopperReset WINDOW(7)
+LIBRARY CLOSE 
+END
+DATA &HF00,&HE00,&HD00,&HC00,&HB00,&HA00,&H900,&H800,&H700,&H600,&H500,&H400,&H300,&H400,&H500
+DATA &H600,&H700,&H800,&H900,&HA00,&HB00,&HC00,&HD00,&HE00
+DATA &H0F0,&H0E0,&H0D0,&H0C0,&H0B0,&H0A0,&H090,&H080,&H070,&H060,&H050,&H040,&H030,&H040,&H050
+DATA &H060,&H070,&H080,&H090,&H0A0,&H0B0,&H0C0,&H0D0,&H0E0
+SUB InitCopperList (BefehlsAnz%,p) STATIC
+  SHARED CopperRemKey&
+  Size&=BefehlsAnz%*4+4
+  Remember&=0 : CopperRemKey&=VARPTR(Remember&)
+  CopperList&(p)=AllocRemember&(RemKey&,Size&,65538&)
+  IF CopperList&(p)=0 THEN FreeRemember& CopperRemKey&,-1 : END
+END SUB
+
+SUB CopWait (Y%,X%,p) STATIC
+  CWait& CopperList&(p),Y%,X%
+  CBump& CopperList&(p)
+END SUB
+
+SUB CopMove (Offset%,Wert%,p) STATIC
+  CMove& CopperList&(p),Offset%,Wert%
+  CBump& CopperList&(p)
+END SUB
+
+SUB CopperStart (Win&,p) STATIC
+  ViewPort&=ViewPortAddress& (Win&)
+  POKEL ViewPort&+20,CopperList&(p)
+  RethinkDisplay&
+END SUB
+
+SUB CopperReset (Win&) STATIC
+  SHARED CopperRemKey&
+  ViewPort&=ViewPortAddress& (Win&)
+  POKEL ViewPort&+20,0
+  RethinkDisplay&
+  FreeRemember& CopperRemKey&,-1
+END SUB

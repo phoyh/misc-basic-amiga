@@ -1,0 +1,41 @@
+OPEN "/data/TVSports/tdat" FOR INPUT AS 1
+OPEN "ram:tdat" FOR OUTPUT AS 2
+FOR lop=1 TO 28
+CLS
+FOR l=1 TO 12
+h$=INPUT$(18,1)
+PRINT #2,h$;
+PRINT "   "h$
+NEXT l
+PRINT #2,INPUT$(40,#1);
+FOR l=1 TO 12
+LOCATE l,1
+j=ASC(INPUT$(1,1))
+CALL change1(j)
+PRINT num$
+LOCATE l,25
+j$=""
+INPUT j$
+IF j$<>"" THEN
+CALL change2(j$)
+j=numb
+END IF
+PRINT #2,CHR$(j);
+PRINT #2,INPUT$(13,1);
+NEXT l
+PRINT #2,INPUT$(24,1);
+NEXT lop
+CLOSE 1,2
+END
+SUB change1(numb) STATIC
+SHARED num$
+IF numb=0 THEN num$="00":EXIT SUB
+ol=INT((numb-1)/6)
+num$=RIGHT$(STR$((ol*10+((numb-1)/6-ol)*6)),2)
+END SUB
+SUB change2(num$) STATIC
+SHARED numb
+IF num$="00" THEN numb=0:EXIT SUB
+ol=VAL(num$)
+numb=INT(ol/10)*6+(ol/10-INT(ol/10))*10+1
+END SUB

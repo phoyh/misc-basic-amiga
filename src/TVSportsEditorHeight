@@ -1,0 +1,36 @@
+OPEN "/data/TVSports/tdat" FOR INPUT AS 1
+OPEN "ram:tdat" FOR OUTPUT AS 2
+FOR lop=1 TO 28
+CLS
+FOR l=1 TO 12
+h$=INPUT$(18,1)
+PRINT #2,h$;
+PRINT h$
+NEXT l
+PRINT #2,INPUT$(39,#1);
+FOR l=1 TO 12
+LOCATE l,20
+jj=ASC(INPUT$(1,1))
+j=0
+INPUT j
+CALL feet(j)
+IF j=0 THEN fet=jj
+PRINT #2,CHR$(fet);
+PRINT #2,INPUT$(13,1);
+NEXT l
+PRINT #2,INPUT$(25,1);
+NEXT lop
+CLOSE 1,2
+END
+SUB metre(kl) STATIC
+SHARED sp$
+kl=kl+64
+sp=kl*2.540005
+sp$=STR$(CINT(sp))
+END SUB
+SUB feet(kl) STATIC
+SHARED fet
+z=kl/2.540005
+fet=CINT(z-64)
+IF fet<6 THEN fet=6
+END SUB

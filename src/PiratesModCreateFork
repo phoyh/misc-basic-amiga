@@ -1,0 +1,70 @@
+LIBRARY "/bmaps/dos.library"
+LIBRARY "/bmaps/exec.library"
+DECLARE FUNCTION xOpen&() LIBRARY
+DECLARE FUNCTION AllocMem&() LIBRARY
+DECLARE FUNCTION LoadSeg&() LIBRARY
+OPEN "/data/PiratesMod/IndianOcean" FOR INPUT AS 1
+leng&=LOF(1)
+CLOSE 1
+mem&=AllocMem&(leng&,1)
+Handle&=xOpen&(SADD("/data/PiratesMod/IndianOcean"+CHR$(0)),1005)
+xRead Handle&,mem&,leng&
+xClose Handle&
+DrawIFF&=-4+4*LoadSeg&(SADD("/assem-libs/DrawIFF"+CHR$(0)))
+SCREEN 2,208,220,4,1
+WINDOW 2,,,0,2
+sp&=PEEKL(46+WINDOW(7))
+bm&=PEEKL(8+PEEKL(sp&+88))
+CALL DrawIFF&(sp&,mem&,133,6)
+FreeMem mem&,leng&
+leng&=770558&/2
+heng&=leng&
+mem&=AllocMem&(leng&,1)
+Handle&=xOpen&(SADD("RAM:bPirates.rez"+CHR$(0)),1006)
+HandleS&=xOpen&(SADD("PIRATESB:bPirates.rez"+CHR$(0)),1005)
+FOR t=1 TO 2
+xRead HandleS&,mem&,leng&
+xWrite Handle&,mem&,leng&
+NEXT t
+leng&=16000
+xRead HandleS&,mem&,leng&
+o&=mem&
+FOR y=3 TO 202
+FOR x=20 TO 178 STEP 2
+u=POINT(x,y)*16+POINT(x+1,y)
+PSET (x,y),1
+POKE o&,u
+o&=o&+1
+NEXT x,y
+xWrite Handle&,mem&,leng&
+leng&=54914&
+xRead HandleS&,mem&,leng&
+a$="Portug."
+FOR t=0 TO 6
+x=ASC(MID$(a$,t+1,1))
+POKE mem&+t+831745&-786558&,x
+NEXT t
+a$="China"
+FOR t=0 TO 4
+x=ASC(MID$(a$,t+1,1))
+POKE mem&+t+836714&-786558&,x
+POKE mem&+t+830795&-786558&,x
+NEXT t
+a$="Pepper"
+FOR t=0 TO 5
+x=ASC(MID$(a$,t+1,1))
+POKE mem&+t+837018&-786558&,x
+POKE mem&+t+835769&-786558&,x
+POKE mem&+t+835665&-786558&,x
+POKE mem&+t+828263&-786558&,x
+NEXT t
+a$="Spice"
+FOR t=0 TO 4
+x=ASC(MID$(a$,t+1,1))
+POKE mem&+t+820876&-786558&,x
+NEXT t
+xWrite Handle&,mem&,leng&
+xClose HandleS&
+xClose Handle&
+FreeMem mem&,heng&
+LIBRARY CLOSE

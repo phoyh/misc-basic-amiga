@@ -1,0 +1,70 @@
+OPEN "/data/TVSports/tdat" FOR INPUT AS 1
+FOR lop=1 TO 27
+DIM spieler$(13),height(12),s(12),p(12),d(12),r(12),q(12),j(12)
+strong$=""
+CLS
+FOR l=1 TO 13
+o$=" "
+WHILE ASC(o$)<>0
+o$=INPUT$(1,1)
+spieler$(l)=spieler$(l)+o$
+WEND
+spieler$(l)=LEFT$(spieler$(l),LEN(spieler$(l))-1)
+IF LEN(spieler$(l))<18 THEN o$=INPUT$(17-LEN(spieler$(l)),1)
+PRINT "   "spieler$(l)
+NEXT l
+strong$=INPUT$(17,1)
+k$=INPUT$(3,1)
+PRINT strong$
+FOR l=1 TO 12
+k$=INPUT$(1,1)
+kp=ASC(INPUT$(1,1))
+IF l=3 THEN LOCATE 20,1:PRINT kp
+CALL metre(kp)
+LOCATE l,23
+PRINT sp$;"cm"
+numb=ASC(INPUT$(1,1))
+CALL change1(numb)
+LOCATE l,1
+PRINT num$
+k$=INPUT$(3,1)
+s(l)=ASC(INPUT$(1,1))
+p(l)=ASC(INPUT$(1,1))
+d(l)=ASC(INPUT$(1,1))
+r(l)=ASC(INPUT$(1,1))
+q(l)=ASC(INPUT$(1,1))
+j(l)=ASC(INPUT$(1,1))
+LOCATE l,31
+PRINT s(l);p(l);d(l);r(l);q(l);j(l)
+k$=INPUT$(2,1)
+NEXT l
+k$=INPUT$(26,1)
+ERASE spieler$,height,s,p,d,r,q,j
+WHILE INKEY$="":WEND
+NEXT lop
+CLOSE 1
+LOCATE 20,1
+SUB change1(numb) STATIC
+SHARED num$
+IF numb=0 THEN num$="00":EXIT SUB
+ol=INT((numb-1)/6)
+num$=RIGHT$(STR$((ol*10+((numb-1)/6-ol)*6)),2)
+END SUB
+SUB change2(num$) STATIC
+SHARED numb
+IF num$="00" THEN numb=0:EXIT SUB
+ol=VAL(num$)
+num=INT(ol/10)*6+(ol/10-INT(ol/10))*10+1
+END SUB
+SUB metre(kl) STATIC
+SHARED sp$
+kl=kl+64
+sp=kl*2.540005
+sp$=STR$(CINT(sp))
+END SUB
+SUB feet(kl) STATIC
+SHARED feet
+feet=kl/2.540005
+feet=CINT(feet-64)
+IF feet<6 THEN feet=6
+END SUB

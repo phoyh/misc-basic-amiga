@@ -1,0 +1,28 @@
+LIBRARY "/bmaps/dos.library"
+DECLARE FUNCTION xOpen&() LIBRARY
+Handle&=xOpen&(SADD("PIRATESB:bpirates.rez"+CHR$(0)),1005)
+SCREEN 2,640,200,1,2
+WINDOW 2,,,0,2
+sp&=PEEKL(WINDOW(7)+46)
+bm&=PEEKL(8+PEEKL(sp&+88))
+Seek Handle&,770558&,-1&
+xRead Handle&,bm&,16000
+xClose Handle&
+LIBRARY CLOSE
+SCREEN 3,330,215,4,1
+WINDOW 3,,(0,0)-(320,200),0,3
+PALETTE 0,0,0,0
+PALETTE 9,0,0,.8
+PALETTE 8,.2,.2,1
+PALETTE 5,0,1,.5
+PALETTE 4,.3,.7,0
+PALETTE 3,.4,0,.5
+FOR y=0 TO 199
+FOR x=0 TO 159 STEP 2
+u=PEEK(bm&)
+bm&=bm&+1
+v=INT(u/16)
+vv=u-v*16
+PSET (x,y),v
+PSET (x+1,y),vv
+NEXT x,y

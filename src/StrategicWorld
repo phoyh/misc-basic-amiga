@@ -1,0 +1,718 @@
+IF FRE(1)<280000& THEN CLEAR ,300000&,31000&
+RANDOMIZE TIMER
+sc=3
+DIM ww(12),mo$(11),a(441),e(7,8),z(441,7),n$(7),na$(sc,1),s(sc),b(sc),v(3),gg(sc,6),be(441),p(sc,5),w(441,12),e$(7),w$(12),wa$(4),er(sc,12),m(sc),bew(441)
+FOR j=0 TO 7
+READ e$(j)
+NEXT j
+DATA "Kilo","Liter","Ster","Fische","Einwohner","Kilo","Facharbeiter","Bewegungspunkte"
+FOR j=0 TO 3
+READ v(j)
+NEXT j
+DATA .4,1.6,.3,.8
+FOR j=0 TO sc
+s(j)=1
+g(j)=10000
+NEXT j
+FOR j=1 TO 7
+FOR k=1 TO 8
+READ e(j,k)
+NEXT k,j
+DATA 50,0,0,0,300,500,0,15
+DATA 0,5000,0,100,0,0,0,5
+DATA 0,0,0,500,0,0,0,5
+DATA 400,0,0,0,100,0,0,30
+DATA 200,0,0,0,50,0,0,40
+DATA 0,0,0,0,5000,0,1,5
+DATA 0,0,500,0,100,0,0,30
+FOR j=1 TO 441
+READ a(j)
+NEXT j
+DATA 5,5,5,1,2,2,1,1,1,1,1,7,7,4,4,4,4,4,4,4,4
+DATA 5,5,1,1,2,2,2,2,2,2,1,7,7,4,4,4,4,4,4,4,4
+DATA 5,5,1,2,2,2,2,2,2,1,1,7,4,4,4,4,4,4,4,4,4
+DATA 5,5,1,2,2,2,2,2,6,1,7,7,7,4,4,4,4,4,4,4,4
+DATA 5,5,1,2,2,2,2,1,1,1,1,1,7,7,7,7,7,7,7,7,7
+DATA 5,5,1,1,1,1,1,1,1,1,1,1,7,7,7,7,7,7,7,7,7
+DATA 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+DATA 6,4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2
+DATA 4,4,4,4,1,1,1,1,1,1,1,1,1,1,2,2,2,2,5,5,5
+DATA 4,4,4,7,7,1,1,1,1,1,2,2,2,2,5,5,5,5,5,5,5
+DATA 7,7,7,7,1,1,1,1,2,2,1,6,1,2,5,5,5,5,5,5,5
+DATA 1,1,1,1,1,1,2,2,1,1,1,1,1,2,5,5,5,5,5,5,5
+DATA 1,1,1,1,1,2,6,1,1,1,1,1,1,1,2,1,5,5,5,5,5
+DATA 3,3,3,3,3,3,1,1,1,1,1,1,1,1,2,6,5,5,5,5,5
+DATA 3,3,3,3,3,3,1,1,1,1,1,1,1,1,1,1,7,7,7,4,4
+DATA 3,3,3,3,3,3,3,1,1,1,1,1,7,7,7,7,7,7,4,4,4
+DATA 3,3,3,3,3,3,3,1,1,1,1,7,7,7,7,7,7,7,4,4,4
+DATA 3,1,1,6,3,3,3,1,1,1,7,7,7,7,7,7,7,4,4,4,4
+DATA 3,7,7,1,3,3,3,1,1,7,7,7,7,7,7,7,7,4,4,4,4
+DATA 3,7,7,1,3,3,3,3,1,7,7,7,7,7,4,4,4,4,4,4,4
+DATA 3,3,3,3,3,3,3,3,1,4,4,4,4,4,4,4,4,4,4,4,4
+FOR j=0 TO 7
+FOR k=1 TO 441
+z(k,j)=e(a(k),j+1)
+NEXT k,j
+ERASE a,e
+DIM e(3)
+FOR j=1 TO 441
+READ be(j)
+be(j)=be(j)-1
+NEXT j
+DATA 1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
+DATA 1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
+DATA 1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
+DATA 1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
+DATA 1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
+DATA 1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2
+DATA 1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2
+DATA 1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2
+DATA 1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,3,3,3
+DATA 1,1,1,1,1,1,1,1,1,1,2,2,2,3,3,3,3,3,3,3,3
+DATA 1,1,1,1,1,1,1,1,4,4,4,4,4,3,3,3,3,3,3,3,3
+DATA 1,1,1,1,1,1,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3
+DATA 1,1,1,1,1,4,4,4,4,4,4,4,4,4,3,3,3,3,3,3,3
+DATA 1,1,1,1,1,4,4,4,4,4,4,4,4,4,3,3,3,3,3,3,3
+DATA 1,1,1,1,4,4,4,4,4,4,4,4,4,4,3,3,3,3,3,3,3
+DATA 1,1,1,1,4,4,4,4,4,4,4,4,4,4,3,3,3,3,3,3,3
+DATA 1,1,1,1,4,4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3
+DATA 1,1,1,1,1,4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3
+DATA 1,1,1,1,1,4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3
+DATA 1,1,1,1,1,4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3
+DATA 1,1,1,1,1,4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3
+FOR j=1 TO 441
+gg(be(j),6)=gg(be(j),6)+z(j,6)
+NEXT j
+FOR j=0 TO 7
+READ n$(j)
+NEXT j
+DATA "Bodenschätze","Wasser","Holz","Fisch","Bevölkerung","Agrarprodukte","Facharbeiter","Infrastruktur"
+FOR h=0 TO 11
+READ mo$(h)
+NEXT h
+DATA "   Januar","  Februar","     März","    April","      Mai","     Juni","     Juli","   August","September","  Oktober"," November"," Dezember"
+FOR h=0 TO 4
+READ wa$(h)
+NEXT h
+DATA "Infanterie","Artellerie","Kavallerie","Naval","Beförderungsmittel"
+FOR h=0 TO 12
+READ w$(h)
+NEXT h
+DATA "Schwertkämpfer","Gewehrmänner","Unbewaffnete","Bogenschützen","Katapulte","Armbrustschützen","Schwertkämpfer","Gewehrmänner","Kriegsschiffe","Transporterschiffe","Handelsschiffe","Wägen"
+FOR h=0 TO 12
+READ ww(h)
+NEXT h
+DATA 1,1,5,0,1,3,5,2,1,5,3,3,2,0
+SCREEN 2,640,256,4,2
+WINDOW 2,,,0,2
+PALETTE 0,0,0,0
+PALETTE 1,0,0,0
+PALETTE 2,.24,.24,.24
+PALETTE 3,0,0,.6
+PALETTE 4,.6,0,.6
+PALETTE 5,.7,0,0
+PALETTE 6,1,1,0
+PALETTE 7,1,1,1
+PALETTE 8,.2,1,.2
+PALETTE 9,.8,.5,0
+PALETTE 10,.5,.5,.5
+PALETTE 11,0,1,1
+PALETTE 12,.2,.2,1
+PALETTE 13,0,.7,0
+PALETTE 14,1,.87,.73
+PALETTE 15,1,.5,.5
+COLOR 7,0
+DECLARE FUNCTION AskSoftStyle& LIBRARY
+DECLARE FUNCTION OpenDiskFont& LIBRARY
+DECLARE FUNCTION Execute& LIBRARY
+LIBRARY "/bmaps/graphics.library"
+LIBRARY "diskfont.library"
+font "garnet.font",9,0,0  
+LIBRARY CLOSE
+GOTO py: 
+SUB font(fontName$, height%, style%, prefs%) STATIC
+SHARED pFont&
+IF pFont&<>0 THEN CALL CloseFont(pFont&)
+fontName0$=fontName$+CHR$(0)
+textAttr&(0)=SADD(fontName0$)
+textAttr&(1)=height%*65536& + style%*256 + prefs%
+pFont&=OpenDiskFont&(VARPTR(textAttr&(0)))
+IF pFont& <> 0 THEN SetFont WINDOW(8),pFont&
+END SUB
+SUB SetStyle(mask%) STATIC
+SHARED enable%
+SetSoftStyle WINDOW(8),mask%,enable%
+END SUB
+SUB DosLibDemo STATIC
+LIBRARY "/bmaps/dos.library"
+x=Execute&(SADD("list >RAM:temp"+CHR$(0)), 0, 0)
+OPEN "RAM:temp" FOR INPUT AS 1
+WHILE NOT EOF(1)
+LINE INPUT #1,a$
+WEND
+CLOSE
+KILL "RAM:temp"
+END SUB
+py:
+COLOR 7,0
+PRINT :PRINT 
+FOR j=0 TO sc
+PRINT "Name Spieler"j+1":";
+INPUT " ",na$(j,0)
+PRINT "Name Land "j+1":";
+INPUT " ",na$(j,1)
+NEXT j
+ja=1232:mo=-1
+runde:
+CLS
+mo=mo+1:IF mo>11 THEN mo=0:ja=ja+1
+LOCATE 14,14
+COLOR mo+4,0
+PRINT mo$(mo);ja
+p(be(h),4)=0
+FOR h=1 TO 441
+p(be(h),4)=INT(p(be(h),4)*1.01)
+bew(h)=30
+FOR k=0 TO 5
+IF k=4 THEN p(be(h),4)=p(be(h),4)+z(h,4):GOTO ka:
+p(be(h),k)=p(be(h),k)+z(h,k)
+ka:
+NEXT k,h
+FOR h=0 TO sc
+gg(h,3)=gg(h,3)+p(h,3)+p(h,5)-v(3)
+FOR k=0 TO 2
+gg(h,k)=gg(h,k)+p(h,k)-p(h,4)*v(k)
+NEXT k
+gg(h,4)=gg(h,4)+s(h)*p(h,4)
+NEXT h
+FOR spi=0 TO 3
+GOTO ii:
+kart:
+CLS
+IF bq>7 THEN bp:
+w=0
+FOR h=3 TO 15 STEP 2
+LOCATE h,27
+IF w=0 THEN PRINT "   <"f:GOTO pax:
+IF w=6 THEN PRINT "   >"f*6-1:GOTO pax:
+PRINT f*w"-"f*(w+1)-1
+pax:
+w=w+1
+NEXT h
+LOCATE 20,28
+COLOR 3,0
+PRINT "in"
+LOCATE 21,25
+k=15
+qwol:
+k=k-2
+IF LEN(e$(bq))<k THEN PRINT " ";:GOTO qwol:
+k=0
+PRINT e$(bq)
+COLOR 7,0
+w=0
+FOR h=10 TO 118 STEP 18
+w=w+1
+LINE (540,h)-(580,h+5),w,bf
+LINE (539,h-1)-(581,h+6),7,b
+NEXT h
+LOCATE 1,10
+COLOR 3,0
+PRINT n$(bq)
+COLOR 7,0
+w=0
+oi=0
+LINE (20,10)-(462,242),7,b
+FOR j=11 TO 231 STEP 11    
+FOR k=21 TO 441 STEP 21
+w=w+1                  
+oi=INT(z(w,bq)/f)
+IF oi>6 THEN oi=6 
+LINE (k,j)-(k+20,j+10),oi+1,bf
+NEXT k,j
+GOTO iii:
+bp:
+w=10
+FOR h=3 TO 3+sc*2 STEP 2
+LOCATE h,25
+k=17
+ol:
+k=k-2
+IF LEN(na$(w-10,1))<k THEN PRINT " ";:GOTO ol:
+k=0
+PRINT na$(w-10,1)
+w=w+1
+NEXT h
+w=0
+FOR h=10 TO 10+sc*18 STEP 18
+w=w+1
+LINE (540,h)-(580,h+5),7+w,bf
+LINE (539,h-1)-(581,h+6),7,b
+NEXT h
+LOCATE 1,9
+COLOR 3,0
+PRINT "Politische Karte"
+COLOR 7,0
+w=0
+oi=0
+LINE (20,10)-(462,242),7,b
+FOR j=11 TO 231 STEP 11            
+FOR k=21 TO 441 STEP 21
+w=w+1    
+lop=be(w)+8
+IF z(w,3)>0 AND bq=9 THEN lop=3               
+LINE (k,j)-(k+20,j+10),lop,bf
+NEXT k,j
+GOTO iii:
+karet:
+h$=INKEY$:IF h$="" OR h$="0" OR h$="9" THEN karet:
+karate:
+i$=INKEY$:IF i$="" THEN karate:
+IF i$="0" THEN i$="10"
+CLS
+bq1=VAL(h$)-1
+bq2=VAL(i$)-1
+IF h$="1" THEN f1=70
+IF h$="2" THEN f1=800
+IF h$="3" THEN f1=70
+IF h$="4" THEN f1=70
+IF h$="5" THEN f1=70
+IF h$="6" THEN f1=70
+IF h$="7" THEN f1=2
+IF h$="8" THEN f1=5
+IF i$="1" THEN f2=70
+IF i$="2" THEN f2=800
+IF i$="3" THEN f2=70
+IF i$="4" THEN f2=70
+IF i$="5" THEN f2=70
+IF i$="6" THEN f2=70
+IF i$="7" THEN f2=2
+IF i$="8" THEN f2=5
+IF i$="9" THEN f2=-1
+IF i$="10" THEN f2=-1
+jlkn:
+LINE (463,1)-(630,262),0,bf         
+w=0
+FOR h=3 TO 15 STEP 2
+LOCATE h,27
+IF w=0 THEN PRINT "   <"f1:GOTO pwax:
+IF w=6 THEN PRINT "   >"f1*6-1:GOTO pwax:
+PRINT f1*w"-"f1*(w+1)-1
+pwax:
+w=w+1
+NEXT h
+LOCATE 20,28
+COLOR 3,0
+PRINT "in"
+LOCATE 21,25
+k=15
+qwwol:
+k=k-2
+IF LEN(e$(bq1))<k THEN PRINT " ";:GOTO qwwol:
+k=0
+PRINT e$(bq1)
+COLOR 7,0
+w=0
+FOR h=10 TO 118 STEP 18
+w=w+1
+LINE (540,h)-(580,h+5),w,bf
+LINE (539,h-1)-(581,h+6),7,b
+NEXT h
+IF ste=1 THEN ste=0:GOTO iii:
+w=0
+oi=0
+LINE (20,10)-(462,242),7,b
+FOR j=11 TO 231 STEP 11    
+FOR k=21 TO 441 STEP 21
+w=w+1                     
+oi=INT(z(w,bq1)/f1)
+IF oi>6 THEN oi=6 
+LINE (k,j)-(k+20,j+10),oi+1,bf   
+IF f2=-1 THEN lrxy:      
+oi=INT(z(w,bq2)/f2)
+IF oi>6 THEN oi=6
+lrxy:
+IF f2=-1 THEN oi=be(w)+7:IF bq2=9 AND z(w,3)>0 THEN oi=2
+LINE (k+7,j+3)-(k+14,j+7),oi+1,bf
+NEXT k,j
+GOTO iii:
+ii:
+CLS 
+COLOR 7,0
+PRINT "1=Infos"
+PRINT "2=Sonstiges"
+PRINT "3=Runde beenden"
+klewer:
+krd$=INKEY$
+IF krd$="1" THEN dea:
+IF krd$="2" THEN arm:
+IF krd$="3" THEN NEXT spi:GOTO runde:
+GOTO klewer:
+dea:
+bq=0
+CLS 
+PRINT "1=Bodenschätze"
+PRINT "2=Wasser"
+PRINT "3=Holz"
+PRINT "4=Fisch"
+PRINT "5=Einwohner"
+PRINT "6=Agrarprodukte"
+PRINT "7=Facharbeiter"
+PRINT "8=Infrarstruktur"
+PRINT "9=pol. Karte mit Seehoheitsrechten"    
+PRINT "0=pol. Karte ohne Seehoheitsrechten"
+PRINT "m=Mischkarte"
+PRINT "l=Landesstatistik"
+lm:
+g$=INKEY$
+IF g$="1" THEN bq=0:f=70:GOTO kart:
+IF g$="2" THEN bq=1:f=800:GOTO kart:
+IF g$="3" THEN bq=2:f=70:GOTO kart:
+IF g$="4" THEN bq=3:f=70:GOTO kart:
+IF g$="5" THEN bq=4:f=70:GOTO kart:
+IF g$="6" THEN bq=5:f=70:GOTO kart:
+IF g$="7" THEN bq=6:f=2:GOTO kart:
+IF g$="8" THEN bq=7:f=5:GOTO kart:
+IF g$="9" THEN bq=8:GOTO kart:
+IF g$="0" THEN bq=9:GOTO kart:
+IF g$="m" THEN GOTO karet:
+IF g$="l" THEN shell:
+GOTO lm:
+iii:
+vvv=0
+IF MOUSE(0)<>0 THEN iii:
+i:
+g$=INKEY$
+IF g$="e" THEN ii:
+IF g$="z" THEN pokl:
+IF g$="t" THEN ste=1:GOTO jlkn:
+IF MOUSE(0)=0 THEN i:
+v=MOUSE(3)
+vv=MOUSE(4)
+v=v-20:vv=vv-10
+IF v<1 OR v>462 OR vv<1 OR vv>232 THEN i:
+v=INT((v-1)/21)
+vv=INT((vv-1)/11)
+vvv=v+1+vv*21
+CLS 
+f=1               
+PRINT:f=f+1          
+COLOR 5,0:f=f+1
+PRINT "Besitzer":LOCATE f-1,10:PRINT ": ";:COLOR 8,0:PRINT na$(be(vvv),1) 
+PRINT 
+COLOR 5,0:f=f+1
+PRINT "Produktion:" 
+FOR h=0 TO 5
+COLOR 6,0
+IF h=4 THEN uya:
+f=f+1
+PRINT n$(h):LOCATE f,10:PRINT ":";:COLOR 8,0:PRINT z(vvv,h)" "e$(h)
+uya:
+NEXT h:f=f+1
+PRINT              
+COLOR 5,0:f=f+1
+PRINT "Urbanisierung:"
+COLOR 6,0:f=f+1
+PRINT n$(4):LOCATE f,10:PRINT ":";:COLOR 8,0:PRINT z(vvv,4)" "e$(4)   
+COLOR 6,0:f=f+1
+PRINT n$(6):LOCATE f,10:PRINT ":";:COLOR 8,0:PRINT z(vvv,6)" "e$(6)
+COLOR 6,0:f=f+1
+PRINT n$(7):LOCATE f,10:PRINT ":";:COLOR 8,0:PRINT z(vvv,7)" "e$(7)
+PRINT:f=f+1 
+COLOR 5,0:f=f+1
+PRINT "Verbrauch:"
+FOR h=0 TO 2
+COLOR 6,0:f=f+1
+PRINT n$(h):LOCATE f,10:PRINT ":";:COLOR 8,0:PRINT z(vvv,4)*v(h)" "e$(h)         
+NEXT h
+COLOR 6,0:f=f+2
+PRINT n$(3)" und ":PRINT n$(5):LOCATE f,10:PRINT ":";:COLOR 8,0:PRINT z(vvv,4)*v(3);e$(3)" bzw. "e$(5)
+f=0
+COLOR 7,0
+gg:
+IF MOUSE(0)<>0 THEN gg:
+g:
+IF MOUSE(0)=0 THEN g:
+CLS
+PRINT:f=f+1
+COLOR 5,0
+PRINT "Armee:":f=f+1
+COLOR 6,0
+PRINT wa$(0)":":COLOR 8,0:f=f+1    
+IF w(vvv,0)>0 THEN COLOR 8,0:PRINT w$(0)":":COLOR 11,0:f=f+1:LOCATE f,15:PRINT w(vvv,0)
+IF w(vvv,1)>0 THEN COLOR 8,0:PRINT w$(1)":":COLOR 11,0:f=f+1:LOCATE f,15:PRINT w(vvv,1)
+IF w(vvv,2)>0 THEN COLOR 8,0:PRINT w$(2)":":COLOR 11,0:f=f+1:LOCATE f,15:PRINT w(vvv,2)
+COLOR 6,0
+PRINT wa$(1)":":COLOR 8,0:f=f+1
+IF w(vvv,3)>0 THEN COLOR 8,0:PRINT w$(3)":":COLOR 11,0:f=f+1:LOCATE f,15:PRINT w(vvv,3)
+IF w(vvv,4)>0 THEN COLOR 8,0:PRINT w$(4)":":COLOR 11,0:f=f+1:LOCATE f,15:PRINT w(vvv,4)
+IF w(vvv,5)>0 THEN COLOR 8,0:PRINT w$(5)":":COLOR 11,0:f=f+1:LOCATE f,15:PRINT w(vvv,5)
+IF w(vvv,6)>0 THEN COLOR 8,0:PRINT w$(6)":":COLOR 11,0:f=f+1:LOCATE f,15:PRINT w(vvv,6)
+COLOR 6,0
+PRINT wa$(2)":":COLOR 8,0:f=f+1
+IF w(vvv,7)>0 THEN COLOR 8,0:PRINT w$(7)":":COLOR 11,0:f=f+1:LOCATE f,15:PRINT w(vvv,7)
+IF w(vvv,8)>0 THEN COLOR 8,0:PRINT w$(8)":":COLOR 11,0:f=f+1:LOCATE f,15:PRINT w(vvv,8)
+COLOR 6,0
+PRINT wa$(3)":":COLOR 8,0:f=f+1
+IF w(vvv,9)>0 THEN COLOR 8,0:PRINT w$(9)":":COLOR 11,0:f=f+1:LOCATE f,15:PRINT w(vvv,9)
+IF w(vvv,10)>0 THEN COLOR 8,0:PRINT w$(10)":":COLOR 11,0:f=f+1:LOCATE f,15:PRINT w(vvv,10)
+COLOR 6,0
+PRINT wa$(4)":":COLOR 8,0:f=f+1
+IF w(vvv,11)>0 THEN COLOR 8,0:PRINT w$(11)":":COLOR 11,0:f=f+1:LOCATE f,15:PRINT w(vvv,11)
+IF w(vvv,12)>0 THEN COLOR 8,0:PRINT w$(12)":":COLOR 11,0:f=f+1:LOCATE f,15:PRINT w(vvv,12)
+COLOR 6,0
+PRINT "Bewegungspunkte:":f=f+1:LOCATE f,15:COLOR 8,0:PRINT bew(vvv)
+f=0
+gs:
+IF MOUSE(0)<>0 THEN gs:
+gq:
+IF MOUSE(0)=0 THEN gq:
+CLS
+GOTO ii:
+shell:                          
+j=spi
+f=1
+CLS
+COLOR 5,0:f=f+1
+PRINT "Name":LOCATE f-1,10:PRINT ": ";:COLOR 8,0:PRINT na$(j,1)
+COLOR 5,0:f=f+1
+PRINT 
+PRINT "Produktion:"
+FOR h=0 TO 5
+COLOR 6,0
+IF h=4 THEN uy:
+f=f+1
+PRINT n$(h):LOCATE f,10:PRINT ":";:COLOR 8,0:PRINT p(j,h)" "e$(h)  
+uy:
+NEXT h:f=f+1
+PRINT 
+COLOR 5,0:f=f+1
+PRINT "Urbanisierung:"
+COLOR 6,0:f=f+1                                                          
+PRINT n$(4):LOCATE f,10:PRINT ":";:COLOR 8,0:PRINT p(j,4)" "e$(4)
+COLOR 6,0:f=f+1
+PRINT n$(6):LOCATE f,10:PRINT ":";:COLOR 8,0:PRINT gg(j,6)" "e$(6)
+PRINT:f=f+1
+COLOR 5,0:f=f+1
+PRINT "Verbrauch:"
+FOR h=0 TO 2
+COLOR 6,0:f=f+1
+PRINT n$(h):LOCATE f,10:PRINT ":";:COLOR 8,0:PRINT p(j,4)*v(h)" "e$(h)         
+NEXT h
+COLOR 6,0:f=f+2
+PRINT n$(3)" und":PRINT n$(5):LOCATE f,10:PRINT ":";:COLOR 8,0:PRINT p(j,4)*v(3);e$(3)" bzw. "e$(5)
+PRINT:f=f+1 
+COLOR 5,0
+gggdgg:
+IF MOUSE(0)<>0 THEN gggdgg:
+hah:
+IF MOUSE(0)=0 THEN hah:
+CLS:f=1
+PRINT "Vorrat:"
+FOR h=0 TO 4
+COLOR 6,0:f=f+1
+IF h=4 THEN PRINT "Steuereinnahmen":LOCATE f,10:PRINT ":";:COLOR 8,0:PRINT gg(spi,4)" Kupfer":GOTO ld:
+PRINT n$(h):LOCATE f,10:PRINT ":";:COLOR 8,0:PRINT gg(j,h)" "e$(h)
+ld:
+NEXT h
+ggggg:
+IF MOUSE(0)<>0 THEN ggggg:
+hh:
+IF MOUSE(0)=0 THEN hh:
+f=0
+COLOR 10,0
+j=0
+GOTO ii:
+pokl:
+LINE (463,1)-(630,262),0,bf
+IF f2>-1 THEN pokll:
+w=10
+FOR h=3 TO 3+sc*2 STEP 2
+LOCATE h,25
+k=17
+ohtl:
+k=k-2
+IF LEN(na$(w-10,1))<k THEN PRINT " ";:GOTO ohtl:
+k=0
+PRINT na$(w-10,1)
+w=w+1
+NEXT h
+w=0
+FOR h=10 TO 10+sc*18 STEP 18
+w=w+1
+LINE (540,h)-(580,h+5),7+w,bf
+LINE (539,h-1)-(581,h+6),7,b
+NEXT h 
+GOTO iii:              
+pokll:
+LINE (463,1)-(630,262),0,bf
+w=0
+FOR h=3 TO 15 STEP 2
+LOCATE h,27
+IF w=0 THEN PRINT "   <"f2:GOTO pwcax:
+IF w=6 THEN PRINT "   >"f2*6-1:GOTO pwcax:
+PRINT f2*w"-"f2*(w+1)-1
+pwcax:
+w=w+1
+NEXT h
+LOCATE 20,28
+COLOR 3,0
+PRINT "in"
+LOCATE 21,25
+k=15
+qwwoil:
+k=k-2
+IF LEN(e$(bq2))<k THEN PRINT " ";:GOTO qwwoil:
+k=0
+PRINT e$(bq2)
+COLOR 7,0
+w=0
+FOR h=10 TO 118 STEP 18
+w=w+1
+LINE (540,h)-(580,h+5),w,bf
+LINE (539,h-1)-(581,h+6),7,b
+NEXT h
+GOTO iii:
+arm:
+CLS
+PRINT "1=Facharbeiter ausbilden"
+PRINT "2=Steuern ändern"
+fjaltgr:
+a$=INKEY$
+IF a$="1" THEN ausbi:
+IF a$="2" THEN steuern:
+GOTO fjaltgr:
+ausbi:
+CLS
+w=0
+FOR h=3 TO 15 STEP 2
+LOCATE h,28
+IF w=0 THEN PRINT "<"1:GOTO bellum:
+IF w=6 THEN PRINT ">"5:GOTO bellum:
+PRINT " "w
+bellum:
+w=w+1
+NEXT h
+LOCATE 20,28
+COLOR 3,0
+PRINT "in"
+LOCATE 21,25
+PRINT "  "e$(6)
+COLOR 7,0
+w=0
+FOR h=10 TO 118 STEP 18
+w=w+1
+LINE (540,h)-(580,h+5),w,bf
+LINE (539,h-1)-(581,h+6),7,b
+NEXT h
+LOCATE 1,1 
+COLOR 3,0
+PRINT "Facharbeiter ausbilen";:COLOR 5,0:PRINT " (Den ausbildenden Facharbeiter anklicken)"
+COLOR 7,0
+w=0
+oi=0
+LINE (20,10)-(462,242),7,b
+FOR j=11 TO 231 STEP 11    
+FOR k=21 TO 441 STEP 21
+w=w+1   
+f=INT((k-21)/21)
+ff=INT((j-11)/11)
+fff=f+1+ff*21
+IF be(fff)<>spi THEN iurgare:               
+oi=z(w,6)
+IF oi>6 THEN oi=6 
+LINE (k,j)-(k+20,j+10),oi+1,bf
+iurgare:
+NEXT k,j
+vvv=0
+kghsh:
+IF MOUSE(0)<>0 THEN kghsh:
+amplificare:
+g$=INKEY$
+IF g$="e" THEN ii:
+IF MOUSE(0)=0 THEN amplificare:
+v=MOUSE(3)
+vv=MOUSE(4)
+v=v-20:vv=vv-10
+IF v<1 OR v>462 OR vv<1 OR vv>232 THEN amplificare:
+v=INT((v-1)/21)
+vv=INT((vv-1)/11)
+p=v*21+21:pp=vv*11+11
+vvv=v+1+vv*21
+IF z(vvv,6)<1 THEN amplificare:
+FOR j=pp-11 TO pp+11 STEP 11    
+FOR k=p-21 TO p+21 STEP 21         
+far=0         
+f=INT((k-21)/21)
+ff=INT((j-11)/11)
+fff=f+1+ff*21
+IF j<pp+14 AND j>pp-12 AND p+24>k AND p-22<k THEN IF k>20 AND k<484 AND j<244 AND j>10 THEN far=9
+IF j=pp AND p=k THEN far=8 
+IF far>0 AND z(fff,4)>0 AND be(fff)=spi THEN LINE (k,j)-(k+20,j+10),far,bf
+NEXT k,j
+LINE (0,0)-(620,9),0,bf
+LINE (463,1)-(630,262),0,bf
+COLOR 3,0
+LOCATE 3,25
+PRINT " Ausbildende+"
+LOCATE 4,25
+PRINT " Auszubildende"
+LOCATE 7,25
+PRINT " Auszubildende"
+LOCATE 15,27
+COLOR 3,0
+PRINT "als"
+LOCATE 16,25
+PRINT " Möglichkeit"
+COLOR 7,0
+w=0
+FOR h=10 TO 46 STEP 36
+w=w+1
+LINE (540,h)-(580,h+5),w+7,bf
+LINE (539,h-1)-(581,h+6),7,b
+NEXT h
+LOCATE 1,1
+PRINT "Facharbeiter ausbilen";:COLOR 5,0:PRINT " (Den auszubildenden Facharbeiter anklicken)"
+lpdnbg=vvv
+Kadenz:
+IF MOUSE(0)<>0 THEN Kadenz:
+amplitude:
+IF MOUSE(0)=0 THEN amplitude:
+v=MOUSE(3)
+vv=MOUSE(4)
+IF v<p-22 OR v>p+42 OR vv<pp-12 OR vv>pp+22 THEN amplitude:
+v=v-20:vv=vv-10
+IF v<1 OR v>462 OR vv<1 OR vv>232 THEN amplitude:
+v=INT((v-1)/21)
+vv=INT((vv-1)/11)
+p=v*21+21:pp=vv*11+11
+vvv=v+1+vv*21
+IF be(vvv)<>spi THEN amplitude:
+IF z(vvv,4)<1 THEN amplitude:
+LINE (p,pp)-(p+20,pp+10),10,bf
+jqt:
+IF MOUSE(0)<>0 THEN jqt:
+qken:
+IF MOUSE(0)=0 THEN qken:
+CLS
+putare:
+INPUT "Belohnung der ausbildenden Facharbeiter(in Kupfer)";lpdnb
+IF lpdnb<1 THEN GOTO putare:
+IF gg(spi,4)<lpdnb THEN PRINT "Nicht genug Geld":BEEP:GOTO putare:
+IF lpdnb>z(lpdnbg,6)*17000 THEN putare:
+opcx=INT((INT(RND*2000)-1000+lpdnb)/5000)
+IF z(vvv,4)<opcx THEN PRINT "Nicht genug umzuschulende Einwohner":BEEP:GOTO putare:
+z(vvv,6)=z(vvv,6)+opcx
+gg(spi,4)=gg(spi,4)-lpdnb
+gg(spi,6)=gg(spi,6)+opcx
+IF z(vvv,4)<opcx THEN putare:
+z(vvv,4)=z(vvv,4)-opcx
+PRINT opcx"Facharbeiter mehr"
+FOR b=1 TO 10000:NEXT b
+GOTO ii:
+steuern:
+CLS
+PRINT "Alte Steuern pro Einwohner:"s(spi)
+PRINT :INPUT "Neue Steuern pro Einwohner:",s(spi)
+IF s(spi)>25 THEN steuern:
+GOTO ii:

@@ -1,0 +1,92 @@
+SCREEN 2,640,220,3,2
+WINDOW 2,,,0,2
+FOR u=0 TO 3
+PRINT "Dieses Programm ist nur in Verbindung zu anderen sinnvoll! Daher sollte"
+PRINT "man den Umwandler laden, sich ein Bild umwandeln lassen und dann"
+PRINT "dieses Programm ab der Zeile <<DIM a%(116),b%(116)>> in das data-"
+PRINT "Programm Henris einkopieren. Das Programm arbeitet wie das Strategie-"
+PRINT "bild Jeanne d`Arcs! Das herauskommende Programm ist im ASCII-Code!!!"
+NEXT u
+DIM a%(116),b%(116)
+i=0:ii=199:PSET (101,203),2
+OPEN "RAM:CurtainEffect" FOR OUTPUT AS #1
+lok:
+PSET (i/2,203),2
+GET (0,i)-(599,i),a%
+GET (0,ii)-(599,ii),b%
+FOR l=116 TO 0 STEP -1
+IF a%(l)<>0 THEN r=l:l=0
+NEXT l
+FOR l=116 TO 0 STEP -1
+IF b%(l)<>0 THEN rr=l:l=0
+NEXT l
+m=0
+PRINT #1,"data ";
+FOR p=0 TO 33
+IF p>r THEN PRINT #1,"-20":m=1:p=33:GOTO nb:
+i$=STR$(a%(p)):IF a%(p)=>0 THEN i$=MID$(i$,2,9)
+PRINT #1,i$+",";
+nb:
+NEXT p
+IF m=0 THEN
+PRINT #1,STR$(a%(34))
+PRINT #1,"data ";
+FOR p=35 TO 79
+IF p>r THEN PRINT #1,"-20":m=1:p=79:GOTO nb2:
+i$=STR$(a%(p)):IF a%(p)=>0 THEN i$=MID$(i$,2,9)
+PRINT #1,i$+",";
+nb2:NEXT p
+END IF
+IF m=0 THEN
+PRINT #1,STR$(a%(80))
+PRINT #1,"data ";
+FOR p=81 TO 115
+IF p>r THEN PRINT #1,"-20":m=1:p=115:GOTO nb3:
+i$=STR$(a%(p)):IF a%(p)=>0 THEN i$=MID$(i$,2,9)
+PRINT #1,i$+",";
+nb3:NEXT p
+END IF
+IF m=0 THEN PRINT #1,STR$(a%(116))
+m=0
+PRINT #1,"data ";
+FOR p=0 TO 33
+IF p>rr THEN PRINT #1,"-20":m=1:p=33:GOTO nb4:
+i$=STR$(b%(p)):IF b%(p)=>0 THEN i$=MID$(i$,2,9)
+PRINT #1,i$+",";
+nb4:NEXT p
+IF m=0 THEN
+PRINT #1,STR$(b%(34))
+PRINT #1,"data ";
+FOR p=35 TO 79
+IF p>rr THEN PRINT #1,"-20":m=1:p=79:GOTO nb5:
+i$=STR$(b%(p)):IF b%(p)=>0 THEN i$=MID$(i$,2,9)
+PRINT #1,i$+",";
+nb5:NEXT p
+END IF
+IF m=0 THEN
+PRINT #1,STR$(b%(80))
+PRINT #1,"data ";
+FOR p=81 TO 115
+IF p>rr THEN PRINT #1,"-20":m=1:p=115:GOTO nb6:
+i$=STR$(b%(p)):IF b%(p)=>0 THEN i$=MID$(i$,2,9)
+PRINT #1,i$+",";
+nb6:NEXT p
+END IF
+IF m=0 THEN PRINT #1,STR$(b%(116))
+i=i+2:ii=ii-2:IF i=200 THEN vert:
+GOTO lok:
+vert:
+PRINT #1,"SCREEN 2,640,220,3,2:WINDOW 2,,,0,2"
+PRINT #1,"dim a%(116),b%(116),c%(116,200):pset (101,203),2"
+PRINT #1,"i=0:ii=199"
+PRINT #1,"jn:pset (i/2,203),2"
+PRINT #1,"for l=0 to 116:read a%(l):if a%(l)=-20 then for ml=l to 116:a%(ml)=0:next ml:l=116"
+PRINT #1,"next l"
+PRINT #1,"for l=0 to 116:read b%(l):if b%(l)=-20 then for ml=l to 116:b%(ml)=0:next ml:l=116"
+PRINT #1,"next l:FOR l=0 TO 116:c%(l,i)=a%(l):NEXT l:FOR l=0 TO 116:c%(l,ii)=b%(l):NEXT l"
+PRINT #1,"i=i+2:ii=ii-2:if i<>200 then jn:"
+PRINT #1,"i=0:ii=199"
+PRINT #1,"kl:"
+PRINT #1,"put (1,i),c%(0,i):put (1,ii),c%(0,ii)"
+PRINT #1,"i=i+2:ii=ii-2:if i<>200 then kl:"
+CLOSE 1

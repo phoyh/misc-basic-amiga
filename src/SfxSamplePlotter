@@ -1,0 +1,9 @@
+SCREEN 2,640,256,2,2
+WINDOW 2,,,0,2
+INPUT "Instrumentname:",a$:IF a$="" THEN a$="ElectricPiano2"
+CLS
+LINE (0,128)-(601,128),2
+OPEN "st-03:"+a$ FOR INPUT AS #1
+FOR i=0 TO 501:a=ASC(INPUT$(1,#1))-128:IF a<1 THEN a=a+256
+PSET (i,a),3:NEXT i
+CLOSE 1

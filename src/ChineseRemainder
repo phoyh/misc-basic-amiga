@@ -1,0 +1,50 @@
+DIM u(100,2)
+n=0
+a=1
+WHILE a>-1
+ PRINT n+1;
+ a=-1
+ INPUT ":  ",a
+ IF a>-1 THEN
+  INPUT "      mod ",b
+  n=n+1
+  u(n,1)=a:u(n,2)=b
+ END IF
+WEND
+PRINT :PRINT :PRINT 
+m=u(1,2)
+v=u(1,1)
+PRINT v;
+FOR i=2 TO n
+ a=m
+ m0=u(i,2)
+ b=m0
+ GOSUB euklid
+ c=s
+ WHILE c<0:c=c+m0:WEND
+ a=c*(u(i,1)-v)
+ WHILE a>0:a=a-m0:WEND
+ WHILE a<0:a=a+m0:WEND
+ v=v+m*a
+ PRINT "+"a"*"m;
+ m=m*m0
+NEXT i
+PRINT " = "v
+END
+euklid:
+s0=1
+s1=0
+t0=0
+t1=1
+p0=a:IF a<b THEN p0=b
+p1=b:IF a<b THEN p1=a
+WHILE p1>0
+ q=INT(p0/p1)
+ p=p0:p0=p1:p1=p-q*p1
+ s=s0:s0=s1:s1=s-q*s1
+ t=t0:t0=t1:t1=t-q*t1
+WEND
+s=s0:IF a<b THEN s=t0
+t=t0:IF a<b THEN t=s0
+p=p0
+RETURN

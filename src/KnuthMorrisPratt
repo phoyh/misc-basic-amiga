@@ -1,0 +1,52 @@
+DIM lastOccur(256)
+WHILE a=a
+ CLS
+ INPUT "Text: ",s$
+ INPUT "Substring: ",p$
+ m=LEN(p$)
+ s=LEN(s$)
+ FOR i=0 TO 255
+  o=0
+  FOR j=1 TO m
+   IF MID$(p$,j,1)=CHR$(i) THEN o=j
+  NEXT j
+ NEXT i
+ DIM nexti(m),goodSuffix(m)
+ FOR i=1 TO m
+  nexti(i)=0
+  FOR j=1 TO i
+   IF i>1 THEN
+    IF MID$(p$,j,i-j)=MID$(p$,1,i-j) THEN
+     IF MID$(p$,i,1)<>MID$(p$,i-j+1,1) THEN
+      nexti(i)=i-j+1:j=i
+     END IF
+    END IF
+   END IF
+  NEXT j
+ NEXT i 
+ PRINT 
+ PRINT "Next:"
+ PRINT p$
+ FOR i=1 TO m
+  PRINT CHR$(48+nexti(i));
+ NEXT i
+ WHILE INKEY$="":WEND
+ CLS
+ k=1:p=1
+ found=0
+ WHILE k<=s AND found=0
+  PRINT s$
+  PRINT SPACE$(k-p);p$
+  PRINT SPACE$(k-1);"*"
+  IF MID$(s$,k,1)=MID$(p$,p,1) THEN lf
+  uff:
+   p=nexti(p)
+   IF p>0 THEN IF MID$(s$,k,1)<>MID$(p$,p,1) THEN uff
+  lf:
+  k=k+1
+  p=p+1
+  IF p=m+1 THEN found=1
+ WEND
+ WHILE INKEY$="":WEND
+ ERASE goodSuffix,nexti
+WEND

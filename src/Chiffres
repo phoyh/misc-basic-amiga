@@ -1,0 +1,83 @@
+SCREEN 2,320,200,3,1
+WINDOW 2,,,0,2
+jj:RANDOMIZE TIMER
+IF INKEY$="" THEN jj
+FOR u=1 TO 6
+a(u)=INT(RND*10)+1
+PRINT a(u);
+NEXT u
+PRINT:PRINT 
+INPUT z
+FOR f=1 TO 6
+b(1)=a(f)
+FOR g=1 TO 6
+b(2)=a(g)
+IF f=g THEN g=g+1:IF g=7 THEN g=6:GOTO h1
+FOR h=1 TO 6
+b(3)=a(h)
+hh2:IF f=h OR g=h THEN
+h=h+1:IF h>6 THEN h=6:GOTO h2
+GOTO hh2:
+END IF
+FOR i=1 TO 6
+b(4)=a(i)
+hh3:IF f=i OR g=i OR h=i THEN
+i=i+1:IF i>6 THEN i=6:GOTO h3
+GOTO hh3:
+END IF
+FOR j=1 TO 6
+b(5)=a(j)
+hh4:IF f=j OR g=j OR h=j OR i=j THEN
+j=j+1:IF j>6 THEN j=6:GOTO h4
+GOTO hh4:
+END IF
+FOR k=1 TO 6
+b(6)=a(k)
+hh5:IF f=k OR g=k OR h=k OR i=k OR j=k THEN
+k=k+1
+IF k>6 THEN k=6:GOTO h5
+GOTO hh5:
+END IF
+FOR j1=1 TO 4
+p(1)=j1
+FOR j2=1 TO 4
+p(2)=j2
+FOR j3=1 TO 4
+p(3)=j3
+FOR j4=1 TO 4
+p(4)=j4
+FOR j5=1 TO 4
+p(5)=j5
+y=b(1)
+FOR l=1 TO 5
+IF y=z THEN ende
+CALL rewch(p(l),b(l+1),y)
+NEXT l
+NEXT j5,j4,j3,j2,j1
+h5:NEXT k
+h4:NEXT j
+h3:NEXT i
+h2:NEXT h
+h1:NEXT g
+NEXT f
+SUB rewch(u,v,y) STATIC
+SHARED y
+IF u=1 THEN y=y*v
+IF u=2 THEN y=y/v
+IF u=3 THEN y=y+v
+IF u=4 THEN y=y-v
+END SUB
+ende:CLS
+PRINT b(1);
+y=b(1)
+IF l>1 THEN
+FOR n=1 TO l-1
+IF p(n)=1 THEN PRINT "*";
+IF p(n)=2 THEN PRINT ":";
+IF p(n)=3 THEN PRINT "+";
+IF p(n)=4 THEN PRINT "-";
+PRINT b(n+1)
+CALL rewch(p(n),b(n+1),y)
+PRINT y;
+NEXT n
+END IF

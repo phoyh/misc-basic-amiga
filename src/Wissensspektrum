@@ -1,0 +1,254 @@
+Anfang:
+GOTO la
+farben:
+RANDOMIZE TIMER
+PALETTE 1,RND,RND,RND
+PALETTE 2,RND,RND,RND
+COLOR 1,2
+FOR e=1 TO 500
+NEXT e
+k=k+1
+IF k<20 THEN GOTO farben:
+GOTO ba
+la:
+WINDOW 1,"Oysoft",,0
+PRINT :PRINT :PRINT :PRINT :PRINT :PRINT :PRINT :PRINT :PRINT :PRINT SPC (15)"       W I S S E N S - S P E K T R U M"
+PRINT :PRINT :PRINT SPC (15)"            von Stoyx"
+GOTO farben
+ba:
+RANDOMIZE TIMER
+m=134
+DIM a$(m)
+DIM b$(m)
+DIM c(m)
+FOR x=1 TO m
+READ a$(x),b$(x)
+NEXT x
+a:
+WINDOW 1,"Oysoft",,0
+PALETTE 1,0,0,0
+PALETTE 2,1,1,1
+r=0
+PRINT :PRINT :PRINT :PRINT 
+PRINT SPC(10)"Wieviele Fragen (max.";m;")"
+INPUT a
+IF a<1 OR a>m THEN a:
+Hauptprogramm:
+WINDOW 2,"Wissens-Spektrum",,0
+FOR x=1 TO a
+k:
+z=INT(RND*m)+1
+IF c(z)=1 THEN GOTO k:
+c(z)=1
+PRINT a$(z)
+INPUT f$ 
+IF f$=b$(z) THEN r=r+1:PRINT :PRINT "RICHTIG":PRINT :FOR h=1 TO 1000:NEXT h:GOTO g:
+PRINT :PRINT "Falsch":PRINT :PRINT  b$(z) :PRINT 
+FOR g=1 TO 10000
+NEXT g
+g:
+IF x=a THEN GOTO ende:
+NEXT x
+GOTO Hauptprogramm:
+DATA "Wie nennt man den Berggeist des Riesengebirges ","Rübezahl"
+DATA "Was wurde im Mittelalter »der schwarze Tod» genannt","die Pest"
+DATA "Wieviele Leute braucht man zum Skatspielen","3"
+DATA "Sind Termiten Ameisen","nein"
+DATA "Was ist das Gegenteil von »konkret»","abstrakt"
+DATA "Wie heißt der Werftarbeiter,der zum weltweiten Symbol für Solidarität wurde","Lech Walesa"
+DATA "Wer war Tom Sawyers bester Freund","Huckleberry Finn"
+DATA "Wie nennt man den Vorsteher eines Klosters","Abt"
+DATA "Was heißt S.O.S. (auf englisch)","save our souls"
+DATA "Wie nennt man ein quarkähnliches,gesundes Nahrungsmittel aus Sojabohnen","Tofu"
+DATA "Wie nennt man die Schrift,in der Buchstaben durch Bilder ausgedrückt werden","Hieroglyphenschrift"
+DATA "Welches Tier ist bei den Siamesen heilig","der weiße Elephant"
+DATA "Wie nennt man das hochentwickelte Auge der Insekten","Facettenauge"
+DATA "Wie heißt im Niebelungenlied Siegfrieds Schwert","Baldung"
+DATA "Gibt es Kleider aus Holz","ja"
+DATA "Wie nennt man einen unterschriebenen,aber nicht ausgefüllten Scheck","Blankoscheck"
+DATA "Welcher europäische König trug die größten Schuhe","der mit den größten Füßen"
+DATA "Gehört die Erdnuß zu der Nahrungsgruppe der Nüsse","nein"
+DATA "Wo fiel die erste Atombombe","Hiroshima"
+DATA "Was ist schneller,Licht oder Schall","Licht"
+DATA "In welcher Stadt gibt es Gondeln","in Venedig"
+DATA "Welches Land ist gleichzeitig ein ganzer Kontinent","Australien"
+DATA "Welches ist der wichtigste Wallfahrtort des Islams","Mekka"
+DATA "Wie wird der typisch mexikanische Hut genannt","Sombrero"
+DATA "Wie nennt man Wandervölker","Nomaden"
+DATA "Was quillt aus einem ausbrechenden Vulkan","Lava"
+DATA "In welchem Land befindet sich die längste Mauer der Welt","in China"
+DATA "Welcher ist der Zwillingsplanet der Erde","die Venus"
+DATA "In welchem Ofen kann man am schnellsten kochen","im Mikrowellenherd"
+DATA "Welches war das größte Raubtier","der Tyrannosaurier"
+DATA "Wieviele Psalmen gibt es","150"
+DATA "Wie heißt die größte ägyptische Pyramide","Cheopspyramide"
+DATA "Welches Mineral kommt auf der Erde am häufigsten vor","Quarz"
+DATA "Wie heißt das Schneehaus der Eskimos","Iglu"
+DATA "Welche Hasen kann man nicht braten","die Angsthasen"
+DATA "Wer kann um das 300fache seiner Körperlänge springen","der Floh"
+DATA "Einige Monate haben 30 Tage,andere 31 . Wieviele haben 28 Tage","alle"
+DATA "Welches Schiff ist auf dem westdeutschen Zehnmarkschein abgebildet","Gorch Fock"
+DATA "Wie heißt das amerikanische Längenmaß von 91,4 cm","Yard"
+DATA "Was ist Telepathie","Gedankenübertragung"
+40 
+DATA "Was sind 66,1001 und »17 und 4»","Kartenspiele"
+DATA "Wie heißt die Währung der Sowjetunion","Rubel"
+DATA "Wie werden ausländische Zahlungsmittel genannt","Devisen"
+DATA "Wer war der Gründer des Islam","Mohammed"
+DATA "Wie heißt der höchste Berg der Erde","Mount Everest"
+DATA "Wie nennt man einen untererdischen Behälter für Regenwasser","Zisterne"
+DATA "Welche Farbe hat das Blut von Kraken und Tintenfischen","grün"
+DATA "Wieviele Beine hat der Flußkrebs","10"
+DATA "Welcher Wochentag entspricht im Islam unserem Sonntag","der Freitag"
+DATA "Kann in alkoholfreien Getränken Alkohol enthalten sein","ja"
+50 
+DATA "Wie werden die australischen Ureinwohner genannt","Aborigines"
+DATA "In welchem Land leben die meisten Rinder","in Indien"
+DATA "Wieviele Augen sind insgesamt auf einem Würfel abgebildet","21"
+DATA "Welcher Filmagent verkehrt unter dem Namen 007","James Bond"
+DATA "Wer sagte:Veni - vidi - vici","Julius Cäsar"
+DATA "Wie hieß die Nonne,die 1979 den Friedensnobelpreis erhielt","Mutter Theresia"
+DATA "Wie nennt man die Überreste von Heiligen","Reliquien"
+DATA "Welches ist der meistbesuchteste Wallfahrtsort Europas","Lourdes"
+DATA "Wer machte der Sage nach die ersten Flugversuche","Ikarus"
+DATA "Wer war der Führer der indischen Freiheitsbewegung","Mahatma Ghandi"
+60 
+DATA "Welche Elephanten lassen sich zähmen,indische oder afrikanische","indische"
+DATA "Wie groß ist ein Ar","100 Quadratmeter"
+DATA "Was ist ein Matador","ein Stierkämpfer"
+DATA "Welche Ideen entstehen nicht im Kopf","die Orchideen"
+DATA "Wieviele Zähne hat die Schildkröte","keine"
+DATA "Wie heißt der erste Stein,der beim Bau eines Hauses gelegt wird","Grundstein"
+DATA "Wie nennt man ein an drei Seiten von Meer umgebenes Landstück","Halbinsel"
+DATA "Welche Stadt wird Big Apple,Großer Apfel,genannt","New York"
+DATA "Wie nannte sich Adolf Schicklgruber später","Adolf Hitler"
+DATA "Unter welchem Namen wurde Reginal Kenneth Dwight berühmt","Elton John"
+70 
+DATA "Wieviele Felder hat ein Schachfeld","64"
+DATA "Wieviele Sterne sieht man bei klarem Himmel nachts mit bloßem Auge","3000"
+DATA "Welches Blasinstrument ist typisch schottisch","der Dudelsack"
+DATA "In welchem Land werden bei Volkstänzen Kastagnetten verwendet","in Spanien"
+DATA "Wer betrat als erster Mensch den Mond","Neil Armstrong"
+DATA "Wann wurde in Deutschland die erste Fernsehsendung gezeigt","1935"
+DATA "Wer schrieb das Buch »Die unendliche Geschichte» ,das auch verfilmt wurde","Michael Ende"
+DATA "Hängt oder steht ein Stalaktit","er hängt"
+DATA "Was ist das Gegenteil von einem Stalaktiten","ein Stalagmit"
+DATA "Wieviele Höcker hat ein Dromedar","1"
+80 
+DATA "Welche Republik hat in der linken oberen Ecke seiner Flagge eine Sonne","Uruguay"
+DATA "Was frißt der riesige Teufelsrochen","Plankton"
+DATA "Welcher Raum hat keine Türen und Fenster","der Weltraum"
+DATA "Wer verdient sein Geld im Handumdrehen","der Drehorgelspieler"
+DATA "In welchem Land wurden angeblich die Spielkarten erfunden","in China"
+DATA "Wie werden die sowjetischen Weltraumfahrer genannt","Kosmonauten"
+DATA "Wie werden die amerikanischen Astronauten genannt","Astronauten"
+DATA "Wo befindet sich der Louvre","in Paris"
+DATA "Welches ist der wasserreichste Fluß Frankreichs","die Rhone"
+DATA "Wie nennt man einen evangelischen Pfarrer","Pastor"
+90 
+DATA "Woher stammen die ältesten erhaltenen Münzen","aus Lydien"
+DATA "Wieviele Bauern gibt es bei einem Schachspiel","16"
+DATA "Welcher Planet leuchtet rot","der Mars"
+DATA "Welche Pflanze wird für die Herstellung von Sauerkraut verwendet","Kohl"
+DATA "Aus welchem Tier entwickelte sich der Haushund","aus dem Wolf"
+DATA "Wieviele Knochen hat das menschliche Skelett","210"
+DATA "Was ist das Gegenteil von horizontal","vertikal"
+DATA "Wieviele Bienenköniginnen sind in einem Bienenstock","1"
+DATA "Was ist die Wurzel aus 121","11"
+DATA "Gehört die Seelilie zu den Pflanzen","nein"
+100 
+DATA "Wie heißt das männliche Pferd","Hengst"
+DATA "Welches ist der einzige natürliche Feind des weißen Hais","der Mensch"
+DATA "Welcher Name kommt auf der Erde am häufigsten vor","Mohammed"
+DATA "In welchem Monat ist die Entfernung zur Sonne am kürzesten","im Januar"
+DATA "Welcher Vogel hat den größten Schnabel","der Maribu"
+DATA "Welcher Vogel braucht am wenigsten Flügelschläge um zu fliegen","der Pelikan"
+DATA "Welches Tier ist in Burma heilig","die Gans"
+DATA "Wieviele Kinder hatte Johann Sebastian Bach","20"
+DATA "Können Elephanten schwimmen","ja"
+DATA "Wann sieht man weiter,bei Tag oder bei Nacht","bei Nacht"
+110 
+DATA "Welchen Kanal hat Anwar el-Sadat 1975 eröffnet","den Suez Kanal"
+DATA "Wie heißt die Bundeskriminalpolizei der USA","FBI"
+DATA "Wie heißt das indianische Kriegsbeil","Tomahawk"
+DATA "Welches Tier ist intelligenter,der Schimpanse oder der Delphin","der Delphin"
+DATA "Wie nennt man die Rangordnung der Tiere","Hackordnung"
+DATA "Wie nennt man eine angeborene Verhaltensweise","Instinkt"
+DATA "Was ist das älteste vom Menschen erschaffene Baumaterial","der Backstein"
+DATA "Wie heißt die Frucht,die als einzige ihren Samen außen trägt","Erdbeere"
+DATA "Wie heißt die männliche Biene","Drohne"
+DATA "Welcher berühmte Theologen und Arzt baute in Zentralafrika ein Tropenhospital","Albert Schweitzer"
+120 
+DATA "Was ist beim Film das Gegenteil von Zeitlupe","Zeitraffer"
+DATA "Sind Viren Tiere","nein"
+DATA "Welches Säugetier kann fliegen","die Fledermaus"
+DATA "Wer brachte im Jahre 432 das Christentum nach Irland","Sir Patrick"
+DATA "Welches Land wurde am 1.1.1981 das zehnte Mitglied der EG","Griechenland"
+DATA "Welches Körperteil besitzt der Mensch in 24facher Ausgabe","die Rippen"
+DATA "Welches Buch wurde als erstes in heutigem Deutsch geschrieben","die Bibel"
+DATA "Von welchem Schriftsteller stammt das Jugendbuch »Emil und die Detektive»","Erick Kästner"
+DATA "In welcher Zeit dreht sich die Erde einmal um sich selbst(in h)","in 24 h"
+DATA "Wie hieß der erste Hund im Weltall","Laika"
+130 
+DATA "Welches Tier hat gelbe Streifen am Unterleib","die Wespe"
+DATA "Wie werden die zwei Stücke Holz genannt,die beim Film zusammengeschlagen werden","Klappe"
+DATA "Wie heißen die Regierungsbezirke in der Schweiz","Kantone"
+DATA "Welches Säugetier bekommt im Durchschnitt die wenigsten Kinder","das Nashorn"
+
+
+ende:
+WINDOW 2,"Ergebnis",,0
+v=r/a
+IF v<.1 THEN o=6:GOTO z:
+IF v<.2 AND v>=.1 THEN o=5.5:GOTO y:
+IF v<.3 AND v>=.2 THEN o=5:GOTO x:
+IF v<.4 AND v>=.3 THEN o=4.5:GOTO w:
+IF v<.5 AND v>=.4 THEN o=4:GOTO v:
+IF v<.6 AND v>=.5 THEN o=3.5:GOTO u:
+IF v<.7 AND v>=.6 THEN o=3:GOTO t:
+IF v<.8 AND v>=.7 THEN o=2.5:GOTO s:
+IF v<.9 AND v>=.8 THEN o=2:GOTO r:
+IF v<.975 AND v>=.9 THEN o=1.5:GOTO q:
+IF v<1 AND v>=.975 THEN o=1:GOTO q:
+IF v=1 THEN o=1:GOTO p:
+p:
+PRINT "Das war phenomenal !!!!!!!!!!"
+GOTO df:
+q:
+PRINT "Das war super !!!!!"
+GOTO df:
+r:
+PRINT "Das war spitze !!!"
+GOTO df:
+s:
+PRINT "Das war sehr gut !"
+GOTO df:
+t:
+PRINT "Das war gut."
+GOTO df:
+u:
+PRINT "Das war über dem Durchschnitt."
+GOTO df:
+v:
+PRINT "Das war durchschnittlich"
+GOTO df:
+w:
+PRINT "Das war unterdurchschnittlich."
+GOTO df:
+x:
+PRINT "Das war schlecht !"
+GOTO df:
+y:
+PRINT "Das war miserabel !!!"
+GOTO df:
+z:
+PRINT "Das war katastrophal !!!!! Phoyh hätte das besser gemacht."
+GOTO df:
+df:
+PRINT :PRINT "Sie haben";r;"Fragen von";a;"richtig beantwortet."
+PRINT :PRINT "Sie erhalten die Note :";o
+Frage:
+PRINT :INPUT "Wollen Sie noch einmal spielen (j/n) ? ",g$
+IF g$="j" THEN GOTO a:
+IF g$="n" THEN END
+GOTO Frage:

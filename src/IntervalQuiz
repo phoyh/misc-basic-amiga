@@ -1,0 +1,124 @@
+DIM f(23)
+f(1)=523/2
+FOR k=2 TO 23
+f(k)=f(k-1)*1.05946
+NEXT k
+DIM n$(12)
+FOR k=1 TO 12
+READ n$(k)
+NEXT k
+DATA "C","Cis","D","Es","E","F","Fis","G","As","A","B","H"
+DIM i$(18)
+FOR k=1 TO 18
+READ i$(k)
+NEXT k
+DATA "kleine Sekunde","Sekunde","kleine Terz","grosse Terz","Quarte","Tritonus","Quinte","kleine Sexte","grosse Sexte"
+DATA "kleine Septime","grosse Septime","Oktave","kleine None","grosse None","kleine Dezime","grosse Dezime","klein Undezime","grosse Undezime"
+SCREEN 2,320,256,2,1
+WINDOW 2,,,0,2
+kaishi:
+CLS
+PRINT "(L)eicht oder (S)chwer?"
+je:
+RANDOMIZE TIMER
+u$=INKEY$
+IF u$="" THEN je
+inter=17:min=1
+IF UCASE$(u$)="L" THEN inter=12:min=0
+PRINT "(Z)usammen oder (G)etrennt?"
+fa:
+RANDOMIZE TIMER
+u$=INKEY$
+IF u$="" THEN fa
+u$=UCASE$(u$)
+INPUT "Anzahl der Toene: ",anz
+IF anz<2 THEN anz=2
+IF anz>4 THEN anz=4
+CLS
+COLOR 0,1
+LOCATE 25,10
+PRINT "Wiederholung"
+COLOR 1,0
+LOCATE 30,11
+PRINT "Neue Prefs"
+PALETTE 0,0,0,0
+PALETTE 1,1,1,1
+PALETTE 2,1,0,0
+PALETTE 3,0,.8,0
+FOR k=1 TO 18
+LOCATE k,33-LEN(i$(k))/2
+COLOR 2,0
+IF k/2=INT(k/2) THEN COLOR 3,0
+PRINT i$(k)
+NEXT k
+main:
+a=INT(RND*5)+1
+b=INT(RND*inter)+a+min+1
+caga:
+c=INT(RND*inter)+a+min+1
+IF c=b THEN caga
+daga:
+d=INT(RND*inter)+a+min+1
+IF d=c OR d=b THEN daga
+IF anz=4 THEN
+ IF b>c THEN h=b:b=c:c=h
+ IF c>d THEN h=c:c=d:d=h
+ IF b>c THEN h=b:b=c:c=h
+END IF
+IF anz=3 THEN
+ IF b>c THEN h=b:b=c:c=h
+END IF
+again:
+kan=0
+SOUND f(a),15,255,kan
+IF u$="Z" THEN kan=kan+1
+SOUND f(b),15,255,kan
+IF anz=2 THEN goon
+IF u$="Z" THEN kan=kan+1
+SOUND f(c),15,255,kan
+IF anz=3 THEN goon
+IF u$="Z" THEN kan=kan+1
+SOUND f(d),15,255,kan
+goon:
+ant(3)=100:ant(2)=50
+WHILE MOUSE(0)<>0:WEND
+WHILE MOUSE(0)=0:WEND
+v=INT(MOUSE(4)/8)+1
+IF v>28 THEN kaishi
+IF v>18 THEN again
+FOR k=2 TO anz
+LOCATE v,25
+COLOR 1,0
+PRINT "*"
+ant(k-1)=v
+IF k<anz THEN
+ WHILE MOUSE(0)<>0:WEND
+ WHILE MOUSE(0)=0:WEND
+ v=INT(MOUSE(4)/8)+1
+END IF
+NEXT k
+flag=0
+fra(1)=b-a
+fra(2)=c-a
+fra(3)=d-a
+IF ant(1)>ant(2) THEN h=ant(1):ant(1)=ant(2):ant(2)=h
+IF ant(2)>ant(3) THEN h=ant(2):ant(2)=ant(3):ant(3)=h
+IF ant(1)>ant(2) THEN h=ant(1):ant(1)=ant(2):ant(2)=h
+FOR k=1 TO anz-1
+IF ant(k)<>fra(k) THEN flag=1
+NEXT k
+LOCATE 3,1
+COLOR 1,0
+IF flag=0 THEN PRINT "Richtig"
+IF flag=1 THEN
+ PRINT "Falsch"
+ PRINT 
+ FOR k=2 TO anz
+ PRINT i$(fra(k-1))
+ NEXT k
+END IF
+WHILE MOUSE(0)<>0:WEND
+WHILE MOUSE(0)=0:WEND
+WHILE MOUSE(0)<>0:WEND
+LINE (0,0)-(199,150),0,bf
+GOTO main

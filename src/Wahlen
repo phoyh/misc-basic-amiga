@@ -1,0 +1,420 @@
+IF FRE(-2)<25000 THEN CLEAR ,50000&,30000&
+GOTO hey:
+was:
+po=MENU(0)
+pi=MENU(1)
+ON po GOSUB disk,options
+RETURN
+options:
+MENU 2,1,1," Nur Balken    "             
+IF pi=1 THEN MENU 2,1,1,"»Nur Balken«   "
+MENU 2,2,1," Nur Kuchen    "
+IF pi=2 THEN MENU 2,2,1,"»Nur Kuchen«   "
+MENU 2,3,1," Balken+Kuchen "
+IF pi=3 THEN MENU 2,3,1,"»Balken+Kuchen«"
+art=pi:RETURN
+disk:
+ON pi GOTO neu,lade,beende,liste,weg,speichere
+weg:
+WINDOW 3,,(0,100)-(321,125),0,2   
+COLOR 13,0
+INPUT "Name";a$:IF LEN(a$)>30 THEN PRINT "Zu lang!!!":GOTO weg:
+IF a$="" THEN PRINT "Witzbold!!":GOTO weg:
+KILL "/data/Wahlen"+a$
+OPEN "/data/Wahlen/.dir" FOR INPUT AS 1
+OPEN "/data/Wahlen/.dirr" FOR OUTPUT AS 2
+INPUT #1,timbre:PRINT #2,timbre-1
+FOR x=1 TO timbre
+INPUT #1,hsa$
+IF hsa$=a$ THEN kaff:
+PRINT #2,hsa$
+kaff:
+NEXT x
+CLOSE 2
+CLOSE 1
+KILL "/data/Wahlen/.dir"
+NAME "/data/Wahlen/.dirr" AS "/data/Wahlen/.dir"
+WINDOW CLOSE 3
+RETURN
+liste:
+WINDOW 3,,(0,10)-(321,246),0,2
+COLOR 13,0
+OPEN "/data/Wahlen/.dir" FOR INPUT AS 1
+INPUT #1,timbre
+FOR x=1 TO timbre
+INPUT #1,kai$:PRINT kai$
+NEXT x
+CLOSE 1
+hsasa:
+IF INKEY$="" THEN hsasa:
+WINDOW CLOSE 3
+RETURN
+neu:RUN                          
+beende:
+MENU RESET
+WINDOW CLOSE 2
+SCREEN CLOSE 2
+END
+lade:
+IF haj=0 THEN haja=1:GOSUB lalalan:
+WINDOW 3,,(0,100)-(321,125),0,2   
+COLOR 13,0
+INPUT "Name";a$:IF LEN(a$)>30 THEN PRINT "Zu lang!!!":GOTO lade
+IF a$="" THEN PRINT "Witzbold!!":GOTO lade
+OPEN "/data/Wahlen"+a$ FOR INPUT AS 1
+INPUT #1,number
+FOR iu=0 TO 9
+FOR ii=0 TO 2
+INPUT #1,p(iu,ii)
+NEXT ii
+PALETTE iu+3,p(iu,0),p(iu,1),p(iu,2)
+NEXT iu
+FOR iu=1 TO number
+INPUT #1,na$(iu)
+fasds:
+IF LEN(na$(iu))<5 THEN na$(iu)=na$(iu)+" ":GOTO fasds:
+INPUT #1,a(iu)
+aa$(iu)=MID$(STR$(a(iu)),2,4)
+IF a(iu)<1 THEN aa$(iu)="0"+aa$(iu)
+IF a(iu)<10 THEN aa$(iu)=" "+aa$(iu)
+ha=0
+FOR df=1 TO 4
+IF MID$(aa$(iu),df,1)="." THEN aa$(iu)=MID$(aa$(iu),1,df-1)+","+MID$(aa$(iu),df+1,5-df):ha=1
+NEXT df
+IF ha=0 THEN aa$(iu)=aa$(iu)+",0"
+NEXT iu
+CLOSE 1
+WINDOW CLOSE 3
+kafe=1:RETURN
+speichere:
+IF haj=0 THEN haja=1:GOSUB lalalan:
+WINDOW 3,,(0,100)-(321,125),0,2
+COLOR 13,0
+INPUT "Name";a$:IF LEN(a$)>30 THEN PRINT "Zu lang!!!":GOTO speichere
+IF a$="" THEN PRINT "Witzbold!!":GOTO speichere
+OPEN "/data/Wahlen"+a$ FOR OUTPUT AS 1
+PRINT #1,number
+FOR iu=0 TO 9
+FOR ii=0 TO 2
+PRINT #1,p(iu,ii)
+NEXT ii,iu
+FOR iu=1 TO number
+PRINT #1,na$(iu)
+PRINT #1,a(iu)
+NEXT iu
+CLOSE 1
+ar=1:ak3=0:blod=1
+FOR d=48 TO 90
+IF CHR$(d)=MID$(UCASE$(a$),ar,1) THEN gk=d:d=90     
+NEXT d
+IF MID$(UCASE$(a$),ar,1)="Ä" THEN gk=65   
+IF MID$(UCASE$(a$),ar,1)="Ö" THEN gk=79
+IF MID$(UCASE$(a$),ar,1)="Ü" THEN gk=55
+OPEN "/data/Wahlen.dir" FOR INPUT AS 1
+OPEN "/data/Wahlen.dirr" FOR OUTPUT AS 2
+INPUT #1,timbre
+PRINT #2,timbre+1
+IF timbre=0 THEN PRINT #2,a$:blod=0:GOTO humbuk:
+FOR x=1 TO timbre
+INPUT #1,s$:IF ak3=1 THEN PRINT #2,s$:GOTO nt:
+FOR d=48 TO 90
+IF CHR$(d)=MID$(UCASE$(s$),ar,1) THEN lk=d:d=90
+NEXT d
+IF MID$(UCASE$(s$),ar,1)="Ä" THEN lk=65
+IF MID$(UCASE$(s$),ar,1)="Ö" THEN lk=79
+IF MID$(UCASE$(s$),ar,1)="Ü" THEN lk=55
+verglisch:
+IF lk<gk THEN PRINT #2,s$:GOTO nt:
+IF lk=gk THEN
+ar=ar+1
+FOR d=48 TO 90
+IF CHR$(d)=MID$(UCASE$(s$),ar,1) THEN lk=d:d=90
+NEXT d
+IF MID$(UCASE$(s$),ar,1)="Ä" THEN lk=65
+IF MID$(UCASE$(s$),ar,1)="Ö" THEN lk=79
+IF MID$(UCASE$(s$),ar,1)="Ü" THEN lk=55
+FOR d=48 TO 90
+IF CHR$(d)=MID$(UCASE$(a$),ar,1) THEN gk=d:d=90
+NEXT d
+IF MID$(UCASE$(a$),ar,1)="Ä" THEN gk=65
+IF MID$(UCASE$(a$),ar,1)="Ö" THEN gk=79
+IF MID$(UCASE$(a$),ar,1)="Ü" THEN gk=55
+GOTO verglisch:
+END IF
+blod=0:PRINT #2,a$:PRINT #2,s$:ak3=1
+nt:
+NEXT x
+IF blod=1 THEN PRINT #2,a$
+humbuk:CLOSE 2:CLOSE 1
+KILL "/data/Wahlen.dir"
+NAME "/data/Wahlen.dirr" AS "/data/Wahlen.dir"
+WINDOW CLOSE 3
+RETURN
+hey:
+SCREEN 2,330,260,4,1
+WINDOW 2,,(0,10)-(321,246),16,2
+ON MENU GOSUB was:
+DIM a(10),na$(10),b(10),aa$(10),p(9,2)
+PALETTE 15,1,1,1
+PALETTE 2,0,0,0
+PALETTE 13,1,1,1
+PALETTE 14,1,0,0
+PALETTE 1,0,0,0
+PALETTE 0,0,0,0
+MENU 1,0,1,"Diskette"                      
+MENU 1,1,1,"Neue Statistik                         "
+MENU 1,2,1,"Statistik laden                        "
+MENU 1,3,1,"Beenden                                "
+MENU 1,4,1,"Überblick über gespeicherte Statistiken"
+MENU 1,5,1,"Statistik löschen                      "
+MENU 1,6,1,""
+MENU 2,0,1,"Optionen"
+MENU 2,1,1," Nur Balken    "
+MENU 2,2,1," Nur Kuchen    "
+MENU 2,3,1,"»Balken+Kuchen«"
+MENU 3,0,1,""
+MENU 4,0,1,""
+MENU ON
+COLOR 13,0
+DECLARE FUNCTION AskSoftStyle& LIBRARY
+DECLARE FUNCTION OpenDiskFont& LIBRARY
+DECLARE FUNCTION Execute& LIBRARY
+LIBRARY "/bmaps/graphics.library"
+LIBRARY "diskfont.library"
+haj=0:MENU OFF
+enable%=AskSoftStyle&(WINDOW(8))
+Font "times.font",24,0,0
+MENU ON
+SUB Font(fontName$, height%, style%, prefs%) STATIC
+SHARED pFont&
+IF pFont&<>0 THEN CALL CloseFont(pFont&)
+fontName0$=fontName$+CHR$(0)
+textAttr&(0)=SADD(fontName0$)
+textAttr&(1)=height%*65536& + style%*256 + prefs%
+pFont&=OpenDiskFont&(VARPTR(textAttr&(0)))
+IF pFont& <> 0 THEN SetFont WINDOW(8),pFont&
+END SUB
+SUB DosLibDemo STATIC
+LIBRARY "/bmaps/dos.library"
+x=Execute&(SADD("list >RAM:temp"+CHR$(0)), 0, 0)
+OPEN "RAM:temp" FOR INPUT AS 1
+WHILE NOT EOF(1)
+LINE INPUT #1,a$
+PRINT a$
+WEND
+CLOSE
+KILL "RAM:temp"
+END SUB
+hsam:
+LOCATE 3,1
+las:
+INPUT "Wie viele Parteien?";number:number=INT(number)
+IF kafe=1 THEN kafe=0:GOTO Kuchen:
+IF number>10 THEN PRINT "Höchstens 10!!":GOTO las:
+IF number<2 THEN PRINT "Witzbold!!":GOTO las:
+ds:
+CLS
+xx=0
+FOR x=1 TO number*2-1 STEP 2
+xx=xx+1
+PRINT "Name"xx".Partei";
+IF kafe=1 THEN kafe=0:GOTO Kuchen:
+INPUT ":",na$(xx):na$(xx)=UCASE$(na$(xx))
+dada:
+IF LEN(na$(xx))<5 THEN na$(xx)=na$(xx)+" ":GOTO dada:
+INPUT "Palette Rot :",p1
+INPUT "Palette Grün:",p2
+INPUT "Palette Blau:",p3
+PRINT 
+p(xx-1,0)=p1:p(xx-1,1)=p2:p(xx-1,2)=p3
+IF kafe=1 THEN kafe=0:GOTO Kuchen:
+PALETTE xx+2,p1,p2,p3
+NEXT x
+lalalan:
+IF haj=1 THEN klase:
+haj=1
+CLS
+MENU OFF
+enable%=AskSoftStyle&(WINDOW(8))
+Font "times.font",8,0,0
+MENU ON:IF haja=1 THEN haja=0:RETURN
+klase:
+xx=2
+FOR x=0 TO 8*(number-1) STEP 8
+xx=xx+1
+LINE (90,x)-(100,x+7),xx,bf
+NEXT x:xx=0:xa=100
+FOR x=1 TO number
+LOCATE 20,1:PRINT xa"% übrig   "
+LOCATE x,1
+PRINT na$(x):LOCATE x,6:PRINT ":";
+INPUT "",a(x):a(x)=INT(a(x)*10)/10
+aa$(x)=MID$(STR$(a(x)),2,4)
+IF a(x)<1 THEN aa$(x)="0"+aa$(x)
+IF a(x)<10 THEN aa$(x)=" "+aa$(x)
+ha=0
+FOR df=1 TO 4
+IF MID$(aa$(x),df,1)="." THEN aa$(x)=MID$(aa$(x),1,df-1)+","+MID$(aa$(x),df+1,5-df):ha=1
+NEXT df
+IF ha=0 THEN aa$(x)=aa$(x)+",0"
+ha=0
+xa=INT((xa-a(x))*10)/10
+NEXT x
+IF xa <> 0 THEN PRINT "Nochmal!":xx=0:FOR x=1 TO 2000:NEXT x:GOTO lalalan:
+xx=0
+Kuchen:
+CLS
+MENU 1,6,1,"Statistiken speichern                  "
+IF art=1 THEN Balken:
+FOR x=1 TO number
+b(x)=a(x)/100*6.28+b(x-1)
+NEXT x
+CIRCLE (160,100),110,1
+CIRCLE (160,100),105,1
+PAINT (160,9),1
+FOR x=1 TO number
+IF x+2>number+1 THEN CIRCLE (160,100),110,2,0,0:GOTO nxt:
+CIRCLE (160,100),110,2,b(x),b(x)
+nxt:
+NEXT x
+momfa=2
+GOTO t4:
+t1:
+ua=0
+a=7:b=160
+WHILE a<101
+a=a+1:x=0                                 
+hag:
+hatschi=hatschi+1
+IF kafe=1 THEN kafe=0:GOTO Kuchen:
+IF POINT(b,a)=2 AND hatschi>10 THEN momfa=momfa+1:hatschi=0
+IF hatschi<11 AND a(momfa-3)<.5 THEN momfa=momfa+1:hatschi=0
+IF a=13 THEN GOSUB ga:
+IF a=11 THEN GOSUB gaga:
+IF a=12 THEN GOSUB gag:
+IF POINT(b,a)<>0 THEN LINE (b,a)-(160,100),momfa:b=b-1:x=1:GOTO hag:
+IF POINT(b,a)<>1 AND x=1 AND POINT(b-3,a)<>1 THEN b=b+4:WEND:GOTO t2:
+b=b-1:GOTO hag:
+ga:
+LINE (119,15)-(160,100),momfa
+LINE (120,15)-(160,100),momfa
+RETURN
+gag:
+LINE (130,14)-(160,100),momfa
+RETURN
+gaga:
+PSET (143,12),momfa
+RETURN
+t2:
+ua=0
+a=101:b=50
+WHILE b<161
+a=a+1:x=0                                 
+hag2:
+hatschi=hatschi+1
+IF kafe=1 THEN kafe=0:GOTO Kuchen:
+IF POINT(b,a)=2 AND hatschi>10 THEN momfa=momfa+1:hatschi=0
+IF hatschi<11 AND a(momfa-3)<.5 THEN momfa=momfa+1:hatschi=0
+IF a=114 THEN GOSUB has:
+IF POINT(b-1,a)<>0 AND ua=1 THEN b=b-1:GOTO hag2:
+IF b>160 THEN hl:
+IF POINT(b,a)<>0 AND x<INT(a/175)*4+3+INT(a/190)*6 THEN ua=0:LINE (b,a)-(160,100),momfa:b=b+1:x=x+1:GOTO hag2:
+IF POINT(b,a)<>0 THEN b=b-1:GOTO hl:
+IF POINT(b+3,a)=0 THEN b=b-1:GOTO hl:
+b=b+1:GOTO hag2:
+has:
+PSET (55,114),momfa
+RETURN
+hl:
+ua=1
+WEND:GOTO t3:
+t3:
+a=193:b=160
+WHILE a>100
+a=a-1:x=0                                 
+hag3:
+hatschi=hatschi+1
+IF kafe=1 THEN kafe=0:GOTO Kuchen:
+IF POINT(b,a)=2 AND hatschi>10 THEN momfa=momfa+1:hatschi=0
+IF hatschi<11 AND a(momfa-3)<.5 THEN momfa=momfa+1:hatschi=0
+IF b=201 THEN GOSUB ga2:
+IF b=177 THEN GOSUB gaga2:
+IF b=190 THEN GOSUB gag2:
+IF POINT(b,a)<>0 THEN LINE (b,a)-(160,100),momfa:b=b+1:x=1:GOTO hag3:
+IF POINT(b,a)<>1 AND x=1 AND POINT(b+3,a)<>1 THEN b=b-4:WEND:GOTO Names:
+b=b+1:GOTO hag3:
+ga2:
+LINE (201,185)-(160,100),momfa
+LINE (200,185)-(160,100),momfa
+RETURN
+gag2:
+LINE (190,186)-(160,100),momfa
+RETURN
+gaga2:
+PSET (177,188),momfa
+RETURN
+t4:
+ua=0
+a=101:b=270
+WHILE a>7
+a=a-1:x=0                                 
+hag4:
+hatschi=hatschi+1
+IF kafe=1 THEN kafe=0:GOTO Kuchen:
+IF POINT(b,a)=2 AND hatschi>10 THEN momfa=momfa+1:hatschi=0
+IF hatschi<11 AND a(momfa-2)<.5 THEN momfa=momfa+1:hatschi=0
+IF a=86 THEN GOSUB has2:
+IF POINT(b+1,a)<>0 AND ua=1 THEN b=b+1:GOTO hag4:
+IF b<160 THEN hl2:
+IF POINT(b,a)<>0 AND x<INT(25/a)*4+3+INT(10/a)*6 THEN ua=0:LINE (b,a)-(160,100),momfa:b=b-1:x=x+1:GOTO hag4:
+IF POINT(b,a)<>0 THEN b=b+1:GOTO hl2:
+IF POINT(b-3,a)=0 THEN b=b+1:GOTO hl2:
+b=b-1:GOTO hag4:
+has2:
+PSET (265,86),momfa
+RETURN
+hl2:
+ua=1
+WEND:GOTO t1:
+Names:
+IF kafe=1 THEN kafe=0:GOTO Kuchen:
+FOR x=22 TO 26
+IF x-21>number THEN x=26:GOTO basm:
+LOCATE x+1,1
+COLOR x-19,0
+PRINT MID$(na$(x-21),1,5);aa$(x-21)"%"   
+basm:NEXT x
+FOR x=22 TO 26
+IF x-16>number THEN x=26:GOTO bass:
+LOCATE x+1,30
+COLOR x-14,0
+PRINT MID$(na$(x-16),1,5);aa$(x-16)"%"
+bass:NEXT x
+faser:
+IF INKEY$="" THEN faser:
+Balken:
+IF art=2 THEN ulala:
+CLS
+xx=0:xa=1:xy=4:xs=1
+FOR x=0 TO (number-1)*32 STEP 32
+iii=a(xx+1)
+xy=xy+4:IF xy=8 THEN xy=0
+LOCATE 27,xa:COLOR xx+3,0:PRINT MID$(na$(xx+1),1,3)
+FOR a=205 TO 205-INT(iii*2) STEP -1
+IF kafe=1 THEN kafe=0:GOTO Kuchen:
+COLOR xx+3,0
+AREA (x+0,a)
+AREA (x+20,a)
+AREA (x+28,a-10)
+AREA (x+9,a-10)
+AREAFILL 0
+PSET (x+20,a),0
+LINE (x+0,a-1)-(x+20,a-1),0
+LINE -(x+28,a-11),0
+NEXT a:xx=xx+1:xa=xa+4
+LOCATE 3+xy,xs+xa-5:COLOR xx+2,0:PRINT aa$(xx)"%"
+xs=0
+FOR gt=1 TO 500:NEXT gt
+NEXT x
+ulala:IF kafe=1 THEN kafe=0:GOTO Kuchen:
+GOTO ulala:

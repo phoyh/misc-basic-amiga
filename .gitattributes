@@ -1,0 +1,4 @@
+asm-libs/* linguist-vendored
+fonts/** linguist-vendored
+src/* linguist-language=BASIC
+src-tokenized/* linguist-generated

@@ -1,0 +1,3 @@
+cd src
+; subfolder needed for relative pathes during assembly and runtime (/pics/...)
+Basic:amigabasic

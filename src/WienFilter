@@ -1,0 +1,21 @@
+A=.01
+E=100
+vx=10000
+REM Point moves out of canvas for any other velocity vx
+em=1.76*10^10
+x=0
+y=120
+t=.00001
+SCREEN 2,320,256,1,1
+WINDOW 2,,,0,2
+dc:
+IF x<0 OR x>300 OR y<0 OR y>250 THEN END
+PSET (x,y),1
+x=x+vx*t
+y=y+vy*t
+v=SQR(vx^2+vy^2)
+a=em*A*vy
+c=E*em-em*A*vx
+vx=vx+a*t
+vy=vy+c*t
+GOTO dc

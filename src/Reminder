@@ -1,0 +1,183 @@
+SCREEN 2,640,256,3,2
+WINDOW 2,"Chinese Reminder",,0,2
+PRINT "Loading Data..."
+DIM a$(300),b$(300)
+OPEN "/data/Reminder" FOR INPUT AS 1
+INPUT #1,n
+FOR i=1 TO n
+INPUT #1,a$(i)
+INPUT #1,b$(i)
+NEXT i
+CLOSE 1
+PRINT "Updating Backup.";
+KILL "/data/Reminder.bak"
+PRINT ".."
+NAME "/data/Reminder" AS "/data/Reminder.bak"
+PRINT "Save Data..."
+GOSUB Writer
+
+Main:
+GOSUB Aktual
+u$=""
+o=0
+FOR i=1 TO 20:v=MOUSE(0):NEXT i
+WHILE MOUSE(0)<>0:WEND
+WHILE (u$="" AND MOUSE(0)=0):u$=INKEY$:WEND
+IF u$="" THEN GOSUB MouseHit:GOTO Main
+IF u$<>"" THEN
+ IF ASC(u$)=27 THEN GOSUB Insert
+END IF
+IF u$="p" THEN GOSUB Printing
+IF u$=CHR$(13) THEN SYSTEM
+GOTO Main
+
+Printing:
+COLOR 1,0
+CLS
+LOCATE 5,5
+PRINT "Writing..."
+OPEN "ram:Chin" FOR OUTPUT AS 1
+PRINT #1,"(#EB#)";
+u$="5"
+z$="                     "
+FOR i=1 TO n
+ x$=""
+ y$=LEFT$(a$(i),1)
+ IF y$<>u$ AND i<>1 THEN x$="(#B#)"
+ x$=x$+LEFT$(a$(i)+z$,20)
+ IF y$<>u$ THEN u$=y$:x$=x$+"(#b#)"
+ x$=x$+LEFT$(b$(i),75)
+ PRINT #1,x$
+NEXT i
+CLOSE 1
+LIBRARY "bmaps:dos.library"
+DECLARE FUNCTION xOpen& LIBRARY
+h&=xOpen&(SADD("NIL:"+CHR$(0)),1005)
+a&=SADD("dh9:c64/c64-loader"+CHR$(0))
+LOCATE 6,5
+PRINT "Initialize C64...(Press Left if C64 prepared - Right when finished)"
+Execute a&,0,h&
+WHILE MOUSE(0)=0:WEND
+a&=SADD("print ram:Chin"+CHR$(0))
+LOCATE 7,5
+PRINT "Printing...(Press Left if C64 ready to print)"
+Execute a&,0,h&
+WHILE MOUSE(0)=0:WEND
+LIBRARY CLOSE
+RETURN
+
+CheckKey:
+WHILE MOUSE(0)<>0:WEND
+u$=""
+o=0
+WHILE (u$="" AND MOUSE(0)=0):u$=INKEY$:WEND
+IF u$="" THEN u$=CHR$(27)
+IF ASC(u$)=27 THEN o=1
+IF ASC(u$)=13 THEN o=2
+IF o=0 THEN CheckKey
+WHILE INKEY$<>"":WEND
+RETURN
+
+Insert:
+COLOR 2,0
+CLS
+LOCATE 8,5
+PRINT "PINYIN"
+LOCATE 12,5
+PRINT "KOMMENTAR"
+COLOR 1,0
+LOCATE 10,10
+x$=""
+INPUT "",x$
+IF x$<>"" THEN
+ LOCATE 14,10
+ INPUT "",y$
+ GOSUB FillIn
+ GOTO Insert
+END IF
+GOSUB Writer
+RETURN
+
+LookAt:
+COLOR 1,0
+CLS
+LOCATE 10,10
+PRINT a$(h)
+COLOR 3,0
+LOCATE 14,10
+PRINT b$(h)
+GOSUB CheckKey
+IF o=2 THEN Chop
+RETURN
+
+MouseHit:
+v=MOUSE(3)
+vv=MOUSE(4)
+h=INT(vv/8)+INT(v/152)*30+1
+IF h<=n THEN GOSUB LookAt
+RETURN
+
+Aktual:
+COLOR 1,0
+CLS
+FOR ii=0 TO 3
+ FOR i=1 TO 30
+  h=i+ii*30
+  COLOR 1,0
+  IF (i+ii)/2=INT((i+ii)/2) THEN COLOR 3,2
+  LOCATE i,ii*19+1
+  PRINT LEFT$(a$(h)+"                 ",19);
+  IF h>=n THEN i=30:ii=3
+ NEXT i
+NEXT ii
+RETURN
+
+Writer:
+OPEN "/data/Reminder" FOR OUTPUT AS 1
+PRINT #1,n
+FOR i=1 TO n
+PRINT #1,a$(i)
+PRINT #1,b$(i)
+NEXT i
+CLOSE 1
+RETURN
+
+Shift:
+FOR i=n TO h STEP -1
+a$(i+1)=a$(i)
+b$(i+1)=b$(i)
+NEXT i
+RETURN
+
+SearchIn:
+m=INT((a+b)/2)
+IF a$(m)<x$ THEN a=m+1:GOTO hub
+b=m-1
+hub:
+IF b<a THEN h=a:RETURN
+GOTO SearchIn
+
+FillIn:
+IF n>0 THEN
+ a=1:b=n
+ GOSUB SearchIn
+ GOSUB Shift
+END IF
+IF n=0 THEN
+ h=1
+END IF
+a$(h)=x$
+b$(h)=y$
+n=n+1
+RETURN
+
+Chop:
+FOR i=h TO n-1
+ a$(i)=a$(i+1)
+ b$(i)=b$(i+1)
+NEXT i
+n=n-1
+IF n=0 THEN a$(1)=""
+GOSUB Writer
+RETURN
+

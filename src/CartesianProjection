@@ -1,0 +1,100 @@
+SCREEN 2,320,256,3,1
+WINDOW 2,,,0,2
+DIM e(2)
+PALETTE 0,0,0,0
+PALETTE 1,1,1,1
+PALETTE 2,1,0,0
+PALETTE 3,0,1,0
+PALETTE 4,0,0,1
+PALETTE 5,1,1,0
+PALETTE 6,1,0,1
+PALETTE 7,0,1,1
+o1=0
+o2=50
+o3=240
+e1=-50:e(0)=e1
+e2=100:e(1)=e2
+e3=-100:e(2)=e3
+fact=SQR(.5)
+DIM a(100,2),f(100),s(100)
+a(0,0)=0
+a(0,1)=0
+a(0,2)=0
+a(1,0)=e1
+a(1,1)=0
+a(1,2)=0
+f(1)=5
+s(1)=1
+a(2,0)=0
+a(2,1)=0
+a(2,2)=0
+a(3,0)=0
+a(3,1)=e2
+a(3,2)=0
+f(3)=3
+s(3)=1
+a(4,0)=0
+a(4,1)=0
+a(4,2)=0
+a(5,0)=0
+a(5,1)=0
+a(5,2)=e3
+f(5)=4
+s(5)=1
+vect=6
+
+REM ** Vectors
+
+FOR l=6 TO 20
+FOR ll=0 TO 2
+READ j:a(l,ll)=e(ll)*j
+NEXT ll
+READ f(l)
+READ s(l)
+NEXT l
+loop:
+IF s(oi)=1 THEN oi=oi+1
+IF s(oi)=2 THEN nex
+x1=a(oi,1)+o2-fact*(a(oi,0)+o1)
+x2=a(oi+1,1)+o2-fact*(a(oi+1,0)+o1)
+y1=a(oi,2)+o3+fact*(a(oi,0)+o1)
+y2=a(oi+1,2)+o3+fact*(a(oi+1,0)+o1)
+LINE (x1,y1)-(x2,y2),f(oi+1)
+oi=CINT(oi+1)
+GOTO loop
+nex:
+DATA .5,0,.5,6,0
+DATA 0,.5,.5,6,0
+DATA .5,1,.5,6,0
+DATA 1,.5,.5,2,0
+DATA .5,0,.5,2,0
+DATA .5,.5,1,6,0
+DATA 0,.5,.5,6,0
+DATA .5,.5,0,6,0
+DATA .5,0,.5,6,1
+DATA .5,.5,1,2,0
+DATA 1,.5,.5,2,0
+DATA .5,.5,0,2,0
+DATA .5,1,.5,6,0
+DATA .5,.5,1,6,2
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+

@@ -1,0 +1,33 @@
+a$="aPirates.rez"
+b$="bPirates.rez"
+a&=300000&:aa&=49952&
+b&=770558&:bb&=70914&
+pfad$="PIRATES:"
+
+a$=pfad$+a$
+aa$="/data/PiratesMod/aPirates.rez.section"
+b$=pfad$+b$
+bb$="/data/PiratesMod/bPirates.rez.section"
+LIBRARY "/bmaps/dos.library"
+LIBRARY "/bmaps/exec.library"
+DECLARE FUNCTION xOpen&() LIBRARY
+DECLARE FUNCTION AllocMem&() LIBRARY
+mem&=AllocMem&(aa&,1)
+Handle&=xOpen&(SADD(a$+CHR$(0)),1005)
+Seek Handle&,a&,-1
+xRead Handle&,mem&,aa&
+xClose Handle&
+Handle&=xOpen&(SADD(aa$+CHR$(0)),1006)
+xWrite Handle&,mem&,aa&
+xClose Handle&
+FreeMem mem&,aa&
+mem&=AllocMem&(bb&,1)
+Handle&=xOpen&(SADD(b$+CHR$(0)),1005)
+Seek Handle&,b&,-1
+xRead Handle&,mem&,bb&
+xClose Handle&
+Handle&=xOpen&(SADD(bb$+CHR$(0)),1006)
+xWrite Handle&,mem&,bb&
+xClose Handle&
+FreeMem mem&,aa&
+LIBRARY CLOSE

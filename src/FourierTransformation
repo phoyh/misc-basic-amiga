@@ -1,0 +1,46 @@
+n=256:scale=1
+zhang=256/32
+SCREEN 2,320,256,2,1
+WINDOW 2,,,0,2
+zweipi=2*3.141593
+DIM yuan(n),mubiao(n),cosi(n),sinu(n)
+FOR i=0 TO n-1
+ z=SIN(zweipi*i/n)
+ yuan(i)=-1
+ IF z>0 THEN yuan(i)=1
+NEXT i
+FOR j=0 TO n-1
+ koeff=zweipi*j/n
+ a=0
+ b=0
+ FOR l=0 TO n-1
+  a=a+yuan(l)*COS(koeff*l)
+  b=b+yuan(l)*SIN(koeff*l)
+ NEXT l
+ a=a/n:b=b/n
+ cosi(j)=a
+ sinu(j)=b
+ CLS
+ PRINT j/n"%"
+NEXT j
+CLS
+FOR i=0 TO n-1
+ PSET (i,n/2*(1-yuan(i))),1
+ PSET (i,n/2*(1-cosi(i))),2
+ PSET (i,n/2*(1-sinu(i))),3
+NEXT i
+
+FOR j=0 TO n-1
+ fr=0
+ koeff=zweipi*j/n
+ FOR k=0 TO n-1
+  fr=fr+cosi(k)*COS(koeff*k)+sinu(k)*SIN(koeff*k)
+ NEXT k
+ mubiao(j)=fr
+NEXT j
+FOR i=0 TO n-1
+ PSET (i,n/2*(1-yuan(i))),1
+ PSET (i,n/2*(1-cosi(i))),2
+ PSET (i,n/2*(1-sinu(i))),3
+NEXT i
+

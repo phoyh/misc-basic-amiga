@@ -1,0 +1,39 @@
+SCREEN 2,640,256,1,2
+WINDOW 2,,,0,2
+OPEN "ram:DestWorldInit" FOR OUTPUT AS 1
+OPEN "ram:SourWorldInit" FOR OUTPUT AS 2
+OPEN "ram:DestRelWorldInit" FOR OUTPUT AS 3
+r=100
+pi=3.141593
+p=12
+FOR x=69 TO 132
+d=SQR(r^2-(r-x)^2)
+ymin=r-d
+ymax=r+d
+d1=CINT(r-d)
+d2=CINT(r+d)
+FOR y=d1 TO d2
+m=m+1
+rx=x-69
+u%=INT(rx/8)+y*8
+PRINT #1,MKI$(u%);
+k=rx-INT(rx/8)*8
+k=7-k
+IF p<12 THEN o=1:k=k+p*16:p=12:PRINT #3,CHR$(k);
+IF o=0 THEN p=k
+o=0
+ry=y
+IF y<ymin THEN ry=ymin
+IF y>ymax THEN ry=ymax
+r1=SQR(r^2-(r-ry)^2)
+a=.000001:IF r1>ABS(r-x) THEN a=SQR(r1^2-(r-x)^2)
+h=CINT(pi/2*r+r*ATN(-(r-x)/a))
+hh=y+CINT((100-x)^2*(y-100)/25000)
+PSET (h,y),1
+PRINT #2,MKI$(h);
+PRINT #2,CHR$(hh);
+NEXT y
+NEXT x
+CLOSE 1
+CLOSE 2
+CLOSE 3

@@ -1,0 +1,178 @@
+DIM man$(28),bman(140),fman(140),cman(140),backcourt$(140),forward$(140),center$(56),backcourt(140),forward(140),center(56),na$(12),fgm(12),fgf(12),tpm(12),tpf(12),ftm(12),ftf(12),reb(12),ass(12),stl(12),blk(12),tur(12),fou(12)
+FOR x=1 TO 28
+READ man$(x)
+NEXT x
+DATA "Lakers  "
+DATA "Warriors"
+DATA "Suns    "
+DATA "Clippers"
+DATA "Kings   "
+DATA "Blazers "
+DATA "Sonics  "
+DATA "Wolves  "
+DATA "Jazz    "
+DATA "Spurs   "
+DATA "Hornets "
+DATA "Rockets "
+DATA "Mavs    "
+DATA "Nuggets "
+DATA "Celtics "
+DATA "Sixers  "
+DATA "Bullets "
+DATA "Knicks  "
+DATA "Nets    "
+DATA "Heat    "
+DATA "Cins    "
+DATA "Hawks   "
+DATA "Bulls   "
+DATA "Cavs    "
+DATA "Pistons "
+DATA "Pacers  "
+DATA "Bucks   "
+DATA "Magic   "
+OPEN "rad:reel2/seasonstats.prt" FOR INPUT AS 1
+SCREEN 2,320,256,1,1
+WINDOW 2,,,0,2
+INPUT "Spieltage:",games
+f$=INPUT$(2335,1)
+f$=INPUT$(1,1)
+PRINT "Phase Lesen"
+FOR y=1 TO 28
+FOR x=1 TO 12
+na$(x)=f$+INPUT$(10,1)
+fgm(x)=VAL(INPUT$(3,1))
+f$=INPUT$(1,1)
+fgf(x)=VAL(INPUT$(3,1))-fgm(x)
+f$=INPUT$(7,1)
+tpm(x)=VAL(INPUT$(3,1))
+f$=INPUT$(1,1)
+tpf(x)=VAL(INPUT$(3,1))-tpm(x)
+f$=INPUT$(6,1)
+ftm(x)=VAL(INPUT$(3,1))
+f$=INPUT$(1,1)
+ftf(x)=VAL(INPUT$(3,1))-ftm(x)
+f$=INPUT$(6,1)
+reb(x)=VAL(INPUT$(3,1))
+ass(x)=VAL(INPUT$(4,1))
+blk(x)=VAL(INPUT$(4,1))
+stl(x)=VAL(INPUT$(4,1))
+tur(x)=VAL(INPUT$(4,1))
+fou(x)=VAL(INPUT$(4,1))
+f$=INPUT$(5,1)
+IF x<12 THEN
+ko:
+f$=INPUT$(1,1)
+IF ASC(f$)<65 OR ASC(f$)>90 THEN ko
+END IF
+NEXT x
+FOR x=1 TO 5
+bac=bac+1
+bman(bac)=y
+backcourt$(bac)=na$(x)
+backcourt(bac)=fgm(x)*1.4-.8*fgf(x)+tpm(x)*2.5-tpf(x)*.8+ftm(x)-ftf(x)*.8+reb(x)*.6+ass(x)+blk(x)*1.2+stl(x)*1.4-tur(x)*1.4-fou(x)*.3
+backcourt(bac)=backcourt(bac)/games
+NEXT x
+FOR x=6 TO 10
+forw=forw+1
+fman(forw)=y
+forward$(forw)=na$(x)
+forward(forw)=fgm(x)*1.4-.8*fgf(x)+tpm(x)*2.5-.8*tpf(x)+ftm(x)-ftf(x)*.8+reb(x)*.6+ass(x)+blk(x)*1.2+stl(x)*1.4-tur(x)*1.4-fou(x)*.3
+forward(forw)=forward(forw)/games
+NEXT x
+FOR x=11 TO 12
+cent=cent+1
+cman(cent)=y
+center$(cent)=na$(x)
+center(cent)=fgm(x)*1.4-.8*fgf(x)+tpm(x)*2.5-.8*tpf(x)+ftm(x)-ftf(x)*.8+reb(x)*.6+ass(x)+blk(x)*1.2+stl(x)*1.4-tur(x)*1.4-fou(x)*.3
+center(cent)=center(cent)/games
+NEXT x
+IF y<28 THEN
+f$=INPUT$(453,1)
+ju:
+f$=INPUT$(1,1)
+IF ASC(f$)<65 OR ASC(f$)>90 THEN ju
+END IF
+NEXT y
+PRINT "Phase Backcourt"
+FOR x=1 TO bac-1
+IF backcourt(x+1)>backcourt(x) THEN
+a=backcourt(x)
+backcourt(x)=backcourt(x+1)
+backcourt(x+1)=a
+a=bman(x)
+bman(x)=bman(x+1)
+bman(x+1)=a
+a$=backcourt$(x)
+backcourt$(x)=backcourt$(x+1)
+backcourt$(x+1)=a$
+x=x-2
+IF x<0 THEN x=0
+END IF
+NEXT x
+PRINT "Phase Forwards"
+FOR x=1 TO forw-1
+IF forward(x+1)>forward(x) THEN
+a=forward(x)
+forward(x)=forward(x+1)
+forward(x+1)=a
+a=fman(x)
+fman(x)=fman(x+1)
+fman(x+1)=a
+a$=forward$(x)
+forward$(x)=forward$(x+1)
+forward$(x+1)=a$
+x=x-2
+IF x<0 THEN x=0
+END IF
+NEXT x
+PRINT "Phase Centers"
+FOR x=1 TO cent-1
+IF center(x+1)>center(x) THEN
+a=center(x)
+center(x)=center(x+1)
+center(x+1)=a
+a=cman(x)
+cman(x)=cman(x+1)
+cman(x+1)=a
+a$=center$(x)
+center$(x)=center$(x+1)
+center$(x+1)=a$
+x=x-2
+IF x<0 THEN x=0
+END IF
+NEXT x
+CLS
+FOR x=1 TO bac
+PRINT RIGHT$(" "+STR$(x),3)".";
+PRINT backcourt$(x)"  "man$(bman(x))"  "backcourt(x)
+IF x=INT(x/30)*30 THEN
+PRINT "          Backcourt-Position";
+WHILE INKEY$="":WEND
+CLS
+END IF
+NEXT x
+WHILE INKEY$="":WEND
+CLS
+FOR x=1 TO forw
+PRINT RIGHT$(" "+STR$(x),3)".";
+PRINT forward$(x)"  "man$(fman(x))"  "forward(x)
+IF x=INT(x/30)*30 THEN
+PRINT "           Forward-Position";
+WHILE INKEY$="":WEND
+CLS
+END IF
+NEXT x
+WHILE INKEY$="":WEND
+CLS
+FOR x=1 TO cent
+PRINT RIGHT$(STR$(x),2)".";
+PRINT center$(x)"  "man$(cman(x))"  "center(x)
+IF x=INT(x/30)*30 THEN
+PRINT "            Center-Position";
+WHILE INKEY$="":WEND
+CLS
+END IF
+NEXT x
+WHILE INKEY$="":WEND
+CLOSE 1
+SYSTEM

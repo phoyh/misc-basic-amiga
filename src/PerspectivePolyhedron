@@ -1,0 +1,251 @@
+SCREEN 2,320,256,3,1
+WINDOW 2,,,0,2
+DIM e(2,2)
+PALETTE 0,0,0,0
+PALETTE 1,1,1,1
+PALETTE 2,1,0,0
+PALETTE 3,0,1,0
+PALETTE 4,0,0,1
+PALETTE 5,1,1,0
+PALETTE 6,1,0,1
+PALETTE 7,0,1,1
+o1=0
+o2=20
+o3=125
+e(0,0)=0:e(0,1)=100:e(0,2)=100
+e(1,0)=100:e(1,1)=100:e(1,2)=0
+e(2,0)=0:e(2,1)=100:e(2,2)=-100
+fact=.3
+DIM a(100,2),f(100),s(100)
+a(0,0)=0
+a(0,1)=0
+a(0,2)=0
+a(1,0)=e(0,0)
+a(1,1)=e(0,1)
+a(1,2)=e(0,2)
+f(1)=5
+s(1)=2
+a(2,0)=0
+a(2,1)=0
+a(2,2)=0
+a(3,0)=e(1,0)
+a(3,1)=e(1,1)
+a(3,2)=e(1,2)
+f(3)=3
+s(3)=2
+a(4,0)=0
+a(4,1)=0
+a(4,2)=0
+a(5,0)=e(2,0)
+a(5,1)=e(2,1)
+a(5,2)=e(2,2)
+f(5)=4
+s(5)=2
+
+REM ** Vectors
+
+FOR l=6 TO 50
+READ j,k,m
+a(l,0)=j*e(0,0)+k*e(1,0)+m*e(2,0)
+a(l,1)=j*e(0,1)+k*e(1,1)+m*e(2,1)
+a(l,2)=j*e(0,2)+k*e(1,2)+m*e(2,2)
+READ f(l)
+READ s(l)
+IF INT(s(l)/2)<>s(l)/2 THEN
+a(l,0)=a(l,0)+a(l-1,0)
+a(l,1)=a(l,1)+a(l-1,1)
+a(l,2)=a(l,2)+a(l-1,2)
+END IF
+IF INT(s(l)/2)=3 THEN
+f=f(l)
+READ j,k,m,f(l),s(l)
+v1=j*e(0,0)+k*e(1,0)+m*e(2,0)
+v2=j*e(0,1)+k*e(1,1)+m*e(2,1)
+v3=j*e(0,2)+k*e(1,2)+m*e(2,2)
+READ j,k,m,f(l),s(l)
+w1=j*e(0,0)+k*e(1,0)+m*e(2,0)
+w2=j*e(0,1)+k*e(1,1)+m*e(2,1)
+w3=j*e(0,2)+k*e(1,2)+m*e(2,2)
+READ j,k,m,f(l),s(l)
+u1=j*e(0,0)+k*e(1,0)+m*e(2,0)
+u2=j*e(0,1)+k*e(1,1)+m*e(2,1)
+u3=j*e(0,2)+k*e(1,2)+m*e(2,2)
+l=CINT(l+1)
+a(l,0)=a(l-1,0)+u1
+a(l,1)=a(l-1,1)+u2
+a(l,2)=a(l-1,2)+u3
+f(l)=f
+s(l)=1
+l=CINT(l+1)
+a(l,0)=a(l-1,0)+v1
+a(l,1)=a(l-1,1)+v2
+a(l,2)=a(l-1,2)+v3
+f(l)=f
+s(l)=1
+l=CINT(l+1)
+a(l,0)=a(l-1,0)+w1
+a(l,1)=a(l-1,1)+w2
+a(l,2)=a(l-1,2)+w3
+f(l)=f
+s(l)=1
+l=CINT(l+1)
+a(l,0)=a(l-1,0)-u1
+a(l,1)=a(l-1,1)-u2
+a(l,2)=a(l-1,2)-u3
+f(l)=f
+s(l)=1
+l=CINT(l+1)
+a(l,0)=a(l-1,0)-w1
+a(l,1)=a(l-1,1)-w2
+a(l,2)=a(l-1,2)-w3
+f(l)=f
+s(l)=1
+l=CINT(l+1)
+a(l,0)=a(l-1,0)+u1
+a(l,1)=a(l-1,1)+u2
+a(l,2)=a(l-1,2)+u3
+f(l)=f
+s(l)=3
+l=CINT(l+1)
+a(l,0)=a(l-1,0)-v1
+a(l,1)=a(l-1,1)-v2
+a(l,2)=a(l-1,2)-v3
+f(l)=f
+s(l)=1
+l=CINT(l+1)
+a(l,0)=a(l-1,0)+w1
+a(l,1)=a(l-1,1)+w2
+a(l,2)=a(l-1,2)+w3
+f(l)=f
+s(l)=1
+l=CINT(l+1)
+a(l,0)=a(l-1,0)-u1
+a(l,1)=a(l-1,1)-u2
+a(l,2)=a(l-1,2)-u3
+f(l)=f
+s(l)=1
+l=CINT(l+1)
+a(l,0)=a(l-1,0)-w1
+a(l,1)=a(l-1,1)-w2
+a(l,2)=a(l-1,2)-w3
+f(l)=f
+s(l)=1
+l=CINT(l+1)
+a(l,0)=a(l-1,0)+v1
+a(l,1)=a(l-1,1)+v2
+a(l,2)=a(l-1,2)+v3
+f(l)=f
+s(l)=3
+l=CINT(l+1)
+a(l,0)=a(l-1,0)+w1
+a(l,1)=a(l-1,1)+w2
+a(l,2)=a(l-1,2)+w3
+f(l)=f
+s(l)=1
+l=CINT(l+1)
+a(l,0)=a(l-1,0)-v1
+a(l,1)=a(l-1,1)-v2
+a(l,2)=a(l-1,2)-v3
+f(l)=f
+s(l)=3
+l=CINT(l+1)
+a(l,0)=a(l-1,0)+u1
+a(l,1)=a(l-1,1)+u2
+a(l,2)=a(l-1,2)+u3
+f(l)=f
+s(l)=1
+l=CINT(l+1)
+a(l,0)=a(l-1,0)+v1
+a(l,1)=a(l-1,1)+v2
+a(l,2)=a(l-1,2)+v3
+f(l)=f
+s(l)=3
+END IF
+NEXT l
+loop:
+REM WHILE INKEY$="":WEND
+IF INT(s(oi)/2)=1 THEN oi=oi+1
+IF INT(s(oi)/2)=2 THEN nex
+x1=a(oi,1)+o2-fact*(a(oi,0)+o1)
+x2=a(oi+1,1)+o2-fact*(a(oi+1,0)+o1)
+y1=a(oi,2)+o3+fact*(a(oi,0)+o1)
+y2=a(oi+1,2)+o3+fact*(a(oi+1,0)+o1)
+LINE (x1,y1)-(x2,y2),f(oi+1)
+oi=CINT(oi+1)
+GOTO loop
+nex:
+REM ** Oktaeder
+DATA 0,0,0,2,0
+DATA 1,-1,1,2,0
+DATA 0,0,1,2,0
+DATA 0,1,0,2,0
+DATA 1,0,0,2,0
+DATA 1,-1,1,2,0
+DATA 1,0,1,2,0
+DATA 1,0,0,2,2
+DATA 0,1,0,2,0
+DATA 1,0,1,2,0
+DATA 0,0,1,2,2
+REM ** Quader
+DATA .33,.33,0,7,6
+DATA -.33,0,.33,7,6
+DATA .33,0,.33,7,6
+DATA .33,-.67,.33,7,6
+DATA 0,0,0,0,4
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+DATA 0,0,0,0,0
+

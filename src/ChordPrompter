@@ -1,0 +1,31 @@
+SCREEN 2,320,200,1,1
+WINDOW 2,,,0,2
+DIM y(9),z(9,6)
+y$(1)="C"
+y$(2)="D"
+y$(3)="E"
+y$(4)="F"
+y$(5)="G"
+y$(6)="A"
+y$(7)="H"
+y$(8)="Eb"
+y$(9)="B"
+x$(1)="M7"
+x$(2)="m7"
+x$(3)="7"
+x$(4)="7aug"
+x$(5)=""
+x$(6)="m"
+FOR w=1 TO 54
+gc:
+u=INT(RND*9)+1
+v=INT(RND*6)+1
+IF z(u,v)=1 THEN gc
+z(u,v)=1
+CLS
+LOCATE 15,10
+PRINT y$(u);x$(v)
+WHILE INKEY$="":RANDOMIZE TIMER:WEND
+NEXT w
+CLS
+

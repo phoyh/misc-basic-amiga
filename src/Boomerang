@@ -1,0 +1,58 @@
+SCREEN 2,620,200,1,2
+WINDOW 2,,,0,2
+w=1
+l=1
+v=2
+c=10
+ma=5
+M=2/3*l^3*v*w*c
+F=c*(4/3*w^2*l^3+2*l*v^2)
+O=2/3*ma*l^2
+vx=0
+vy=0
+vz=1
+Fx=0
+Fy=1
+Fz=0
+Ex=1
+Ey=0
+Ez=0
+t=.001
+fa=M/O*t/2
+WHILE MOUSE(0)=0
+ sx=sx+vx*t*v
+ sy=sy+vy*t*v
+ sz=sz+vz*t*v
+ vx=vx*v+Fx*t*F/ma
+ vy=vy*v+Fy*t*F/ma
+ vz=vz*v+Fz*t*F/ma
+ bv=SQR(vx^2+vy^2+vz^2)
+ vx=vx/bv
+ vy=vy/bv
+ vz=vz/bv
+ ev=Ex*vx+Ey*vy+Ez*vz
+ Fx=-Ey*vz+Ez*vy
+ Fy=-Ez*vx+Ex*vz
+ Fz=-Ex*vy+Ey*vx
+ bv=SQR(Fx^2+Fy^2+Fz^2)
+ Fx=Fx/bv
+ Fy=Fy/bv
+ Fz=Fz/bv
+ Ex=Ex+Fx*fa
+ Ey=Ey+Fy*fa
+ Ez=Ez+Fz*fa
+ bv=SQR(Ex^2+Ey^2+Ez^2)
+ Ex=Ex/bv
+ Ey=Ey/bv
+ Ez=Ez/bv
+ LINE (0,0)-(600,50),0,bf
+ LOCATE 1,1
+ PRINT sx,sy,sz
+ PRINT vx,vy,vz
+ PRINT Fx,Fy,Fz
+ PRINT Ex,Ey,Ez
+ PRINT ev
+ gf:
+ PSET (sx*120-sz*84+80,-sy*120+sz*84+120),1
+ WHILE INKEY$<>"":FOR k=1 TO 1500:NEXT k:WEND
+WEND

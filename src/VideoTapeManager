@@ -1,0 +1,427 @@
+n=0
+DATA "Smoking / No Smoking","","FRA","D",270,1,1:n=n+1
+DATA "Iwan der Schreckliche II","","USR","D",80,2,2:n=n+1
+DATA "Das Taebaek-Gebirge","","KOR","uK",153,3,1:n=n+1
+DATA "Die sieben Samurai","","JAP","uJ",195,4,1:n=n+1
+DATA "Die siebente Saite","","FRA","D",106,10,1:n=n+1
+DATA "Urga","","FRA-MON","D",112,10,2:n=n+1
+DATA "Apocalypse Now","","USA","D",146,12,1:n=n+1
+DATA "Paths to Glory","","USA","D",85,12,2:n=n+1
+DATA "Rosa Luxemburg","","GER","D",112,17,1:n=n+1
+DATA "Im Westen nichts Neues","","USA","D",133,17,2:n=n+1
+DATA "Trane","","USA","D",90,19,1:n=n+1
+DATA "Bird","","USA","D",155,19,2:n=n+1
+DATA "Uzala, der Kirgise","","JAP-URS","uR",135,23,2:n=n+1
+DATA "Das Leben und nichts anderes","","FRA","F",125,25,2:n=n+1
+DATA "Blade Runner","","USA","E",102,31,1:n=n+1
+DATA "Europa","","GER","DE",108,31,2:n=n+1
+DATA "Schindlers Liste","","USA","D",180,37,1:n=n+1
+DATA "Panzerkreuzer Potemkin","","USR","uR",75,46,1:n=n+1
+DATA "Oktober","","USR","uR",115,46,2:n=n+1
+DATA "Streik","","USR","uR",70,46,3:n=n+1
+DATA "Bullets Over Broadway","","USA","D",95,47,1:n=n+1
+DATA 8,14,16,18,20,22,24,26,28,48,49,50,52,0
+DATA 1,30,38,40,0
+DATA 3,4,5,6,7,9,10,11,13,17,19,21,23,25,27,29,32
+ DATA 33,34,35,36,37,39,41,42,43,44,45,0
+DATA 2,12,15,31,46,47,51,0
+DIM orna$(n),na$(n),da&(n),onkas(n),guo$(n),ok(n),in(n),lang$(n)
+DIM kas(100,3),kaslen(100),land$(10),yan$(10),kasqual(100)
+a=3                                           
+FOR i=1 TO n                 
+ READ na$(i),orna$(i),guo$(i),lang$(i),da&(i)
+ READ u,v
+ onkas(i)=u
+ kas(u,v)=i
+NEXT i
+a=0
+FOR i=1 TO 4
+ u=100
+ WHILE u<>0
+  kasqual(u)=i
+  READ u
+  IF u>a THEN a=u
+ WEND
+NEXT i
+FOR i=1 TO a
+ kaslen(i)=244
+NEXT i
+kaslen(1)=304
+kaslen(2)=184
+kaslen(4)=224
+kaslen(44)=198
+kaslen(47)=184
+kaslen(50)=244
+kaslen(52)=244
+kaslen(51)=198
+SCREEN 2,640,256,2,2
+WINDOW 2,,,0,2
+lenmin=0
+lenmax=0
+textfrag$=""
+loop:
+CLS
+COLOR 3,0
+IF lenmax>0 THEN PRINT lenmin"-"lenmax,"";
+COLOR 1,0
+IF textfrag$<>"" THEN PRINT textfrag$,"";
+COLOR 3
+IF ed$<>"" THEN PRINT ed$" ("EditLength")","";
+COLOR 2
+IF yan$(1)<>"" THEN
+ FOR i=1 TO 3
+  PRINT yan$(i);
+ NEXT i
+ PRINT "","";
+END IF
+COLOR 3
+IF land$(1)<>"" THEN
+ FOR i=1 TO 10
+  PRINT land$(i);
+  IF land$(i+1)="" THEN i=10
+  IF i<>10 THEN COLOR 3:PRINT "|";:COLOR 2
+ NEXT i
+END IF
+PRINT :PRINT 
+COLOR 2,0
+PRINT "F 1 ";
+COLOR 3,0
+PRINT "= ";
+COLOR 1,0
+PRINT "Kassete ansehen"
+COLOR 2,0
+PRINT "F 2 ";
+COLOR 3,0
+PRINT "= ";
+COLOR 1,0
+PRINT "Suche nach freiem Platz auf einer Kassette":PRINT 
+COLOR 2,0
+PRINT "F 3 ";
+COLOR 3,0
+PRINT "= ";
+COLOR 1,0
+PRINT "Suche nach Film einer gewissen Dauer"
+COLOR 2,0
+PRINT "F 4 ";
+COLOR 3,0
+PRINT "= ";
+COLOR 1,0
+PRINT "Textsuche ueber alle Felder"
+COLOR 2,0
+PRINT "F 5 ";
+COLOR 3,0
+PRINT "= ";
+COLOR 1,0
+PRINT "Suche nach Ursprungslaendern"
+COLOR 2,0
+PRINT "F 6 ";
+COLOR 3,0
+PRINT "= ";
+COLOR 1,0
+PRINT "Suche nach Sprachen"
+COLOR 2,0
+PRINT "F 7 ";
+COLOR 3,0
+PRINT "= ";
+COLOR 1,0
+PRINT "Suche nach Titel (mit EditDistance)"
+PRINT 
+COLOR 2,0
+PRINT "F 9 ";
+COLOR 3,0
+PRINT "= ";
+COLOR 1,0
+PRINT "Suche starten"
+PRINT 
+COLOR 2,0
+PRINT "F10 ";
+COLOR 3,0
+PRINT "= ";
+COLOR 1,0
+PRINT "Beenden"
+
+waitinp:
+GOSUB getchar
+IF v$=chr$(129) THEN showtape
+IF v$=chr$(130) THEN freemin
+IF v$=chr$(131) THEN minfilm
+IF v$=chr$(138) THEN SYSTEM
+IF v$=chr$(132) THEN search
+IF v$=chr$(137) THEN start
+IF v$=chr$(133) THEN country
+IF v$=chr$(134) THEN language
+IF v$=chr$(135) THEN editdistance
+
+GOTO waitinp
+
+mousewait:
+LOCATE 30,35
+COLOR 2,3
+PRINT "RETURN"
+COLOR 1,0
+mous:
+GOSUB getchar
+IF v$=CHR$(13) THEN RETURN
+GOTO mous
+
+getchar:
+v$=""
+WHILE v$="":v$=INKEY$:WEND
+RETURN
+
+filmout:
+ COLOR 2
+ LOCATE posi,2
+ PRINT na$(o)
+ COLOR 3
+ LOCATE posi,30
+ PRINT orna$(o)
+ COLOR 1
+ LOCATE posi,56
+ PRINT da&(o)
+ COLOR 3
+ LOCATE posi,62
+ u=onkas(o)
+ v=INT(u/2+.5)
+ v$="H":IF v=u/2 THEN v$="V"
+ PRINT RIGHT$(STR$(v),2);" ";
+ COLOR 2
+ PRINT v$;" ";
+ COLOR 1
+ PRINT RIGHT$(STR$(kasqual(onkas(o))),1)
+ LOCATE posi,69
+ COLOR 3
+ PRINT guo$(o)
+ COLOR 2
+ LOCATE posi,77
+ PRINT lang$(o)
+ IF posi=28 THEN
+  GOSUB mousewait
+  CLS
+  posi=4
+ END IF
+RETURN
+
+prkas:
+FOR ii=1 TO 3
+ o=kas(i,ii)
+ IF o<>0 THEN posi=posi+1:GOSUB filmout
+ IF o=0 AND ii=1 THEN
+  posi=posi+1
+  COLOR 3
+  LOCATE posi,2
+  PRINT "Leerkassette"
+  COLOR 1
+  LOCATE posi,50
+  v=INT(i/2+.5)
+  v$="H":IF v=i/2 THEN v$="V"
+  PRINT v;
+  COLOR 2
+  PRINT v$;" ";
+  COLOR 3
+  PRINT RIGHT$(STR$(kasqual(i)),1)  
+ END IF
+NEXT ii
+posi=posi+1
+RETURN
+
+start:
+LINE (0,12)-(640,260),0,bf
+posi=4
+a=LEN(textfrag$)
+FOR o=1 TO n
+ in=1
+ IF textfrag$<>"" THEN
+  found=0
+  b$=orna$(o):c$=na$(o)
+  b=LEN(b$):c=LEN(c$)
+  IF a>b THEN mova:
+  FOR ii=1 TO b-a+1
+   IF UCASE$(MID$(b$,ii,a))=textfrag$ THEN found=1
+  NEXT ii
+  mova:
+  IF a>c THEN movb:
+  FOR ii=1 TO c-a+1
+   IF UCASE$(MID$(c$,ii,a))=textfrag$ THEN found=1
+  NEXT ii
+  movb:
+  IF found=0 THEN in=0
+ END IF
+ IF lenmax>0 THEN IF da&(o)>lenmax OR da&(o)<lenmin THEN in=0
+ IF land$(1)<>"" THEN
+  found=0
+  a$=UCASE$(guo$(o))
+  FOR i=1 TO 10
+   b$=land$(i)
+   IF b$="" THEN i=10:GOTO endguo
+   l=LEN(b$)
+   IF LEFT$(a$,l)=b$ THEN found=1
+   IF RIGHT$(a$,l)=b$ THEN found=1
+   endguo:
+  NEXT i
+  IF found=0 THEN in=0
+ END IF
+ IF yan$(1)<>"" THEN
+  a$=lang$(o)
+  kido=1
+  FOR i=1 TO 3
+   IF MID$(a$,i,1)=yan$(kido) THEN kido=kido+1:IF yan$(kido)="" THEN i=3
+  NEXT i
+  IF kido<=kidoAs THEN in=0
+ END IF
+ IF ed$<>"" THEN
+  b$=orna$(o):c$=na$(o)
+  b=LEN(b$):c=LEN(c$)
+  a$=ed$:a=LEN(a$)
+  DIM matrix1(a,b),matrix2(a,c)
+  FOR i=0 TO a
+   matrix1(i,0)=i:matrix2(i,0)=i
+  NEXT i
+  FOR i=0 TO b:matrix1(0,i)=i:NEXT i
+  FOR i=0 TO c:matrix2(0,i)=i:NEXT i
+  IF ABS(b-a)>EditLength THEN b=0:matrix1(a,0)=EditLength+1
+  IF ABS(c-a)>EditLength THEN c=0:matrix2(a,0)=EditLength+1
+  FOR i=1 TO a
+   FOR ii=1 TO b
+    mo=1
+    IF MID$(a$,i,1)=MID$(b$,ii,1) THEN mo=0
+    tom=matrix1(i-1,ii-1)+mo
+    IF tom>matrix1(i-1,ii)+1 THEN tom=matrix1(i-1,ii)+1
+    IF tom>matrix1(i,ii-1)+1 THEN tom=matrix1(i,ii-1)+1
+    matrix1(i,ii)=tom
+   NEXT ii
+   FOR ii=1 TO c
+    mo=1
+    IF MID$(a$,i,1)=MID$(c$,ii,1) THEN mo=0
+    tom=matrix2(i-1,ii-1)+mo
+    IF tom>matrix2(i-1,ii)+1 THEN tom=matrix2(i-1,ii)+1
+    IF tom>matrix2(i,ii-1)+1 THEN tom=matrix2(i,ii-1)+1
+    matrix2(i,ii)=tom
+   NEXT ii
+  NEXT i
+  IF matrix1(a,b)>EditLength AND matrix2(a,c)>EditLength THEN in=0
+  ERASE matrix1,matrix2
+ END IF
+ IF in=1 THEN posi=posi+1:GOSUB filmout
+ LOCATE 31,70
+ COLOR 2
+ PRINT RIGHT$(STR$(CINT(o/n*100)),3)"%";
+NEXT o
+GOSUB mousewait
+GOTO loop
+
+showtape:
+PRINT :PRINT 
+COLOR 3
+PRINT "Reihe von links: ";
+COLOR 1
+INPUT "",u
+u=u*2
+COLOR 2
+PRINT "(V)orne oder (H)inten ?";
+GOSUB getchar
+IF v$="h" THEN u=u-1
+FOR i=1 TO 3
+ o=kas(u,i)
+ IF na$(o)="" THEN endfor
+ posi=25+i
+ GOSUB filmout
+endfor:
+NEXT i
+GOSUB mousewait
+GOTO loop
+
+search:
+textfrag$=""
+PRINT :PRINT 
+COLOR 2
+PRINT "Text: ";
+COLOR 1
+INPUT "",a$
+IF a$="" THEN loop
+textfrag$=UCASE$(a$)
+GOTO loop
+
+freemin:
+PRINT :PRINT 
+COLOR 2
+PRINT "Wieviele Minuten frei (min.) : ";
+COLOR 1
+INPUT "",b
+COLOR 2
+PRINT "Wieviele Minuten frei (max.) : ";
+COLOR 1
+INPUT "",bb
+CLS
+posi=1
+FOR i=1 TO 100
+ IF kaslen(i)=0 THEN i=100:GOTO endfree
+ c=kaslen(i)
+ FOR ii=1 TO 3
+  o=kas(i,ii)
+  IF o<>0 THEN c=c-da&(o)
+ NEXT ii
+ IF b>c OR bb<c THEN endfree
+ GOSUB prkas
+ IF posi>26 THEN GOSUB mousewait:CLS:posi=1
+endfree:
+NEXT i
+GOSUB mousewait
+GOTO loop
+
+minfilm:
+PRINT 
+COLOR 2
+PRINT "Mindestdauer: ";
+COLOR 3
+INPUT "",lenmin
+COLOR 1
+PRINT "Maximaldauer: ";
+COLOR 3
+INPUT "",lenmax
+GOTO loop
+
+country:
+PRINT 
+FOR i=1 TO 10
+ COLOR 2
+ PRINT i". moegliches Ursprungsland: ";
+ COLOR 1
+ land$(i)=""
+ INPUT "",land$(i)
+ land$(i)=UCASE$(land$(i))
+ IF land$(i)="" THEN i=10
+NEXT i
+GOTO loop
+
+language:
+PRINT 
+K=3
+FOR i=1 TO 3
+ COLOR 2
+ PRINT i". moegliche Sprache: ";
+ COLOR 1
+ yan$(i)=""
+ INPUT "",yan$(i)
+ yan$(i)=UCASE$(yan$(i))
+ IF yan$(i)="U" THEN yan$(i)="u":a$=yan$(1):yan$(1)=yan$(i):yan$(i)=a$
+ IF yan$(i)="" THEN K=i-1:i=3
+NEXT i
+IF K>0 THEN IF yan$(K)="D" AND yan$(K-1)<>"u" THEN a$=yan$(K-1):yan$(K-1)=yan$(K):yan$(K)=a$
+kidoAs=K
+GOTO loop
+
+editdistance:
+PRINT 
+PRINT 
+ed$=""
+COLOR 2
+PRINT "Neues Wort: ";
+COLOR 1
+INPUT "",ed$
+PRINT 
+COLOR 3
+PRINT "max. Abstand: ";
+COLOR 1
+INPUT "",EditLength
+GOTO loop

@@ -1,0 +1,55 @@
+INPUT "Anzahl der Punkte:",num
+DIM m(num,num),v(num)
+SCREEN 2,320,256,1,1
+WINDOW 2,,,0,2
+LINE (0,120)-(300,120),1
+LINE (150,0)-(150,250),1
+FOR i=1 TO 30:v=MOUSE(0):NEXT i
+FOR k=1 TO num
+WHILE MOUSE(0)=0:WEND
+WHILE MOUSE(0)<>0:WEND
+v=MOUSE(3)
+vv=MOUSE(4)
+PSET (v,vv),1
+v=v-150
+FOR kk=1 TO num
+m(kk,k)=v^(num-kk)
+NEXT kk
+v(k)=120-vv
+FOR i=1 TO 30:vvv=MOUSE(0):NEXT i
+NEXT k
+LOCATE 1,1
+PRINT "OK"
+FOR k=1 TO num-1
+FOR kk=k+1 TO num
+f=m(k,k)/m(k,kk)
+v(kk)=v(kk)*f-v(k)
+FOR kkk=k TO num
+m(kkk,kk)=m(kkk,kk)*f-m(kkk,k)
+NEXT kkk
+NEXT kk
+NEXT k
+FOR k=num TO 2 STEP -1
+v(k)=v(k)/m(k,k)
+FOR kk=1 TO k-1
+v(kk)=v(kk)-m(k,kk)*v(k)
+NEXT kk
+NEXT k
+v(1)=v(1)/m(1,1)
+out=0
+LOCATE 1,1
+PRINT "GO"
+FOR x=-150 TO 150
+y=0
+FOR k=1 TO num
+y=y+v(k)*x^(num-k)
+NEXT k
+realx=x+150
+realy=120-y
+IF realy>0 AND realy<250 THEN
+IF x>-150 AND out=0 THEN LINE -(realx,realy),1
+IF x=-150 OR out=1 THEN PSET (realx,realy),1
+out=0
+END IF
+IF realy<0 OR realy>250 THEN out=1
+NEXT x

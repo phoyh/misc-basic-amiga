@@ -1,0 +1,262 @@
+FOR i=1 TO 14
+z$=z$+CHR$(0)
+NEXT i
+LIBRARY "/bmaps/dos.library"
+LIBRARY "/bmaps/exec.library"
+DECLARE FUNCTION xOpen&() LIBRARY
+DECLARE FUNCTION AllocMem&() LIBRARY
+leng&=349952&
+mem&=AllocMem&(leng&,1)
+Handle&=xOpen&(SADD("PIRATESA:aPirates.rez"+CHR$(0)),1005)
+xRead Handle&,mem&,leng&
+xClose Handle&
+dat&=mem&+321679&
+REM Treasure Fleet
+FOR t=0 TO 14
+READ x
+POKE dat&+t,x
+NEXT t
+DATA 18,18,13,13,13
+DATA 4,12,28,35,35
+DATA 0,22,22,39,40
+REM Silver Train
+FOR t=16 TO 30
+READ x
+POKE dat&+t,x
+NEXT t
+DATA 18,18,13,13,13
+DATA 4,12,35,35,25
+DATA 26,34,34,24,24
+a$="Pepper"
+FOR t=0 TO 5
+x=ASC(MID$(a$,t+1,1))
+POKE mem&+t+336267&,x
+NEXT t
+a$=LEFT$("Red Sea"+z$,15)
+dat&=mem&+322817&
+FOR t=0 TO 14
+x=ASC(MID$(a$,t+1,1))
+POKE dat&+t,x
+POKE dat&+t+28,x
+NEXT t
+POKE mem&+322806&,12
+POKE mem&+322807&,53
+POKE mem&+322834&,6
+POKE mem&+322835&,40
+a$="Portug."
+FOR t=0 TO 6
+x=ASC(MID$(a$,t+1,1))
+POKE mem&+t+346549&,x
+POKE mem&+t+346673&,x
+NEXT t
+a$="Port."
+FOR t=0 TO 4
+x=ASC(MID$(a$,t+1,1))
+POKE mem&+t+347216&,x
+NEXT t
+dat&=mem&+321713&
+SCREEN 2,640,325,2,4
+WINDOW 2,,,0,2
+show:
+CLS
+zwi&=dat&
+FOR t=1 TO 39
+ COLOR 1,0
+ IF (t AND 1)=1 THEN COLOR 2,0
+ nam$=""
+ FOR o=12 TO 27
+  i=PEEK(zwi&+o)
+  IF i=0 THEN i=32
+  a$=CHR$(i)
+  IF i=135 THEN a$="a"
+  IF i=137 THEN a$="a"
+  IF i=142 THEN a$="e"
+  IF i=141 THEN a$="c"
+  nam$=nam$+a$
+ NEXT o
+ PRINT nam$;
+ PRINT RIGHT$("   "+STR$(PEEK(zwi&+1)),3);
+ PRINT RIGHT$("   "+STR$(PEEK(zwi&+2)),4);
+ i=PEEK(zwi&+3)
+ IF i=0 THEN nam$="S"
+ IF i=1 THEN nam$="E"
+ IF i=2 THEN nam$="F"
+ IF i=3 THEN nam$="H"
+ PRINT " ";nam$;
+ PRINT PEEK(zwi&+4);
+ PRINT RIGHT$("  "+STR$(10*PEEK(zwi&+5)),3);
+ PRINT " ";RIGHT$("  "+STR$(100*PEEK(zwi&+6)),4);
+ PRINT RIGHT$("    "+STR$(1000*PEEK(zwi&+7)),6);
+ PRINT RIGHT$("  "+STR$(PEEK(zwi&+8)),4);" ";
+ i=PEEK(zwi&)
+ nam$="    "
+ IF i>63 THEN nam$="Inl "
+ IF (i AND 32)=32 THEN nam$=nam$+"Mar "
+ IF (i AND 32)=0 THEN nam$=nam$+"    "
+ IF (i AND 16)=16 THEN nam$=nam$+"GuetN "
+ IF (i AND 16)=0 THEN nam$=nam$+"     "
+ IF (i AND 2)=2 THEN nam$=nam$+"GuetA "
+ IF (i AND 2)=0 THEN nam$=nam$+"     "
+ IF (i AND 8)=8 THEN nam$=nam$+"SugN "
+ IF (i AND 8)=0 THEN nam$=nam$+"     "
+ IF (i AND 4)=4 THEN nam$=nam$+"Food "
+ IF (i AND 4)=0 THEN nam$=nam$+"     "
+ IF (i AND 1)=1 THEN nam$=nam$+"SugA"
+ IF (i AND 1)=0 THEN nam$=nam$+"    "
+ PRINT nam$
+ zwi&=zwi&+28
+NEXT t
+WHILE MOUSE(0)<>0:WEND
+WHILE MOUSE(0)=0:WEND
+v=INT(MOUSE(4)/8)
+IF v>38 THEN finish:
+zwi&=dat&+v*28
+CLS
+COLOR 1,0
+nam$=""
+Stadt:
+INPUT "Name: ",nam$
+IF LEN(nam$)>15 THEN PRINT "Zu lang!!":GOTO Stadt
+IF nam$<>"" THEN
+ nam$=LEFT$(nam$+z$,15)
+ FOR t=1 TO 15
+  i=ASC(MID$(nam$,t,1))
+  IF i=ASC("�") THEN i=135
+  IF i=ASC("�") THEN i=137
+  IF i=ASC("�") THEN i=142
+  IF i=ASC("�") THEN i=141
+  POKE zwi&+11+t,i
+ NEXT t
+END IF
+PRINT 
+x=200:y=300
+WHILE x>159 OR x<0
+ x=0
+ INPUT "x-Koordinate: ",x
+WEND
+WHILE y>199 OR y<0
+ y=0
+ INPUT "y-Koordinate: ",y
+WEND
+IF x<>0 THEN POKE zwi&+1,x
+IF y<>0 THEN POKE zwi&+2,y
+PRINT 
+PRINT "Land (S/E/F/H): ";
+loop:
+a$=INKEY$
+IF a$="" THEN loop
+r=0
+IF a$="s" THEN POKE zwi&+3,0:r=1
+IF a$="e" THEN POKE zwi&+3,1:r=1
+IF a$="f" THEN POKE zwi&+3,2:r=1
+IF a$="h" THEN POKE zwi&+3,3:r=1
+IF ASC(a$)=13 THEN r=2
+IF r=0 THEN loop
+IF r=1 THEN PRINT UCASE$(a$);
+PRINT 
+PRINT 
+PRINT "Fortgroesse (0-4): ";
+loop2:
+a$=INKEY$
+IF a$="" THEN loop2
+IF ASC(a$)<>13 THEN
+ x=VAL(a$)
+ IF x<0 OR x>4 THEN loop2
+ POKE zwi&+4,x
+END IF
+PRINT a$
+PRINT 
+loop3:
+x=0
+INPUT "Garnison (30-600): ",x
+IF x>600 THEN loop3
+IF x<>0 THEN POKE zwi&+5,x/10
+PRINT 
+loop4:
+x=0
+INPUT "Bevoelkerung (100-8000): ",x
+IF x>8000 THEN loop4
+IF x<>0 THEN POKE zwi&+6,x/100
+PRINT 
+loop5:
+x=0
+INPUT "Goldschatz (1000-120000): ",x
+IF x>120000& THEN loop5
+IF x<>0 THEN POKE zwi&+7,x/1000
+PRINT 
+loop6:
+x=0
+INPUT "Wirtschaftsstaerke (1-129:Surviving;130-179:Prospering;180-200:Wealthy) : ",x
+IF x>200 THEN loop6
+IF x<>0 THEN POKE zwi&+8,x
+PRINT 
+PRINT "Hafenstadt (J/N)? ";
+loop7:
+a$=INKEY$
+IF a$="" THEN loop7
+IF a$<>"j" AND a$<>"n" AND ASC(a$)<>13 THEN loop7
+IF a$="j" THEN POKE zwi&,(PEEK(zwi&) AND 191)
+IF a$="n" THEN POKE zwi&,(PEEK(zwi&) OR 64)
+PRINT UCASE$(a$)
+PRINT 
+PRINT "Marode (J/N)? ";
+loop8:
+a$=INKEY$
+IF a$="" THEN loop8
+IF a$<>"j" AND a$<>"n" AND ASC(a$)<>13 THEN loop8
+IF a$="n" THEN POKE zwi&,(PEEK(zwi&) AND 223)
+IF a$="j" THEN POKE zwi&,(PEEK(zwi&) OR 32)
+PRINT UCASE$(a$)
+PRINT 
+PRINT "Grosse Gueternachfrage (J/N)? ";
+loop9:
+a$=INKEY$
+IF a$="" THEN loop9
+IF a$<>"j" AND a$<>"n" AND ASC(a$)<>13 THEN loop9
+IF a$="n" THEN POKE zwi&,(PEEK(zwi&) AND 239)
+IF a$="j" THEN POKE zwi&,(PEEK(zwi&) OR 16)
+PRINT UCASE$(a$)
+PRINT 
+PRINT "Grosse Sugarnachfrage (J/N)? ";
+loopa:
+a$=INKEY$
+IF a$="" THEN loopa
+IF a$<>"j" AND a$<>"n" AND ASC(a$)<>13 THEN loopa
+PRINT UCASE$(a$)
+IF a$="n" THEN POKE zwi&,(PEEK(zwi&) AND 247)
+IF a$="j" THEN POKE zwi&,(PEEK(zwi&) OR 8)
+PRINT
+PRINT "sehr billige Goods (J/N)? ";
+loopb:
+a$=INKEY$
+IF a$="" THEN loopb
+IF a$<>"j" AND a$<>"n" AND ASC(a$)<>13 THEN loopb
+IF a$="n" THEN POKE zwi&,(PEEK(zwi&) AND 253)
+IF a$="j" THEN POKE zwi&,(PEEK(zwi&) OR 2)
+PRINT UCASE$(a$)
+PRINT  
+PRINT "Billige Lebensmittel (J/N)? ";
+loopc:
+a$=INKEY$
+IF a$="" THEN loopc
+IF a$<>"j" AND a$<>"n" AND ASC(a$)<>13 THEN loopc
+IF a$="n" THEN POKE zwi&,(PEEK(zwi&) AND 251)
+IF a$="j" THEN POKE zwi&,(PEEK(zwi&) OR 4)
+PRINT UCASE$(a$)
+PRINT 
+PRINT "Billiger Sugar (J/N)? ";
+loopd:
+a$=INKEY$
+IF a$="" THEN loopd
+IF a$<>"j" AND a$<>"n" AND ASC(a$)<>13 THEN loopd
+IF a$="n" THEN POKE zwi&,(PEEK(zwi&) AND 254)
+IF a$="j" THEN POKE zwi&,(PEEK(zwi&) OR 1)
+PRINT UCASE$(a$)
+GOTO show
+finish:
+Handle&=xOpen&(SADD("PIRATESA:aPirates.rez"+CHR$(0)),1006)
+xWrite Handle&,mem&,leng&
+xClose Handle&
+FreeMem mem&,leng&
+LIBRARY CLOSE
+SCREEN CLOSE 2

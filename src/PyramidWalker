@@ -1,0 +1,45 @@
+SCREEN 2,640,512,1,4
+WINDOW 2,,,0,2
+DIM x(16),y(16),z(16),bx(16),by(16)
+FOR u=1 TO 10
+READ x(u),y(u),z(u)
+NEXT u
+DATA -30,-30,30
+DATA -30,-30,-30
+DATA 0,30,0
+DATA 30,-30,-30
+DATA -30,-30,-30
+DATA 30,-30,-30
+DATA 30,-30,30
+DATA 0,30,0
+DATA -30,-30,30
+DATA 30,-30,30
+x=0:y=0:z=151:a=0:b=0:f=1
+GOTO draw
+hnc:
+h$=INKEY$
+IF h$=CHR$(28) THEN z=z-f:GOTO draw
+IF h$=CHR$(29) THEN z=z+f:GOTO draw
+IF h$=CHR$(49) THEN x=x-f:y=y-f:GOTO draw
+IF h$=CHR$(50) THEN y=y-f:GOTO draw
+IF h$=CHR$(51) THEN x=x+f:y=y-f:GOTO draw
+IF h$=CHR$(52) THEN x=x-f:GOTO draw
+IF h$=CHR$(54) THEN x=x+f:GOTO draw
+IF h$=CHR$(55) THEN x=x-f:y=y+f:GOTO draw
+IF h$=CHR$(56) THEN y=y+f:GOTO draw
+IF h$=CHR$(57) THEN x=x+f:y=y+f:GOTO draw
+IF h$="" THEN hnc
+IF ASC(h$)>128 AND ASC(h$)<139 THEN f=ASC(h$)-128:LOCATE 1,1:PRINT f
+GOTO hnc
+draw:
+FOR u=1 TO 16
+bx(u)=x+(x-x(u))*300/(z(u)-z)+320
+by(u)=256-y-(y-y(u))*300/(z(u)-z)
+NEXT u
+CLS
+FOR u=1 TO 6 STEP 5
+PSET (bx(u),by(u)),1
+FOR uu=1 TO 4
+LINE -(bx(u+uu),by(u+uu)),1
+NEXT uu,u
+GOTO hnc

@@ -1,0 +1,62 @@
+SCREEN 2,660,500,2,4
+WINDOW 2,,,0,2
+mx=320
+my=250
+ort:
+CLS
+INPUT "Anfangs-vx in 1000km/h (z.B. 70):",a$
+IF a$<>"" THEN vx=VAL(a$)
+IF a$="" THEN vx=l
+l=vx
+INPUT "Anfangs-vy in 1000km/h (z.B. 10):",a$
+IF a$<>"" THEN vy=VAL(a$)
+IF a$="" THEN vy=ll
+ll=vy
+INPUT "Planetenmasse in 1000 Tonnen (z.B. 100000):",a$
+IF a$<>"" THEN m=VAL(a$)
+IF a$="" THEN m=mm
+mm=m
+CLS
+LINE (mx-2,my-1)-(mx+2,my+1),2,bf
+LINE (mx-1,my-2)-(mx+1,my+2),2,bf
+PRINT("Waehle Startpunkt und klicke Maus!")
+WHILE MOUSE(0)<>0:WEND
+mj:
+IF MOUSE(0)=0 THEN mj
+x=MOUSE(3)-mx
+y=MOUSE(4)-my
+IF x=-mx AND y=-my THEN x=tx:y=ty
+tx=x:ty=y
+PSET (x+160,y+120),3
+loop:
+y=y+vy/100
+x=x+vx/100
+r=SQR(x^2+y^2)
+vx=vx-m*6.672*x/r^3/100
+vy=vy-m*6.672*y/r^3/100
+IF INT(x)=xx AND INT(y)=yy THEN loop
+IF POINT(x+mx,y+my)<>0 THEN see
+zu=0
+ld:
+yy=INT(y)
+xx=INT(x)
+PSET (x+mx,y+my),3
+IF x>mx OR x<-mx THEN PRINT "Planet außer Reichweite":GOTO ende
+IF y>my OR y<-my THEN PRINT "Planet außer Reichweite":GOTO ende
+GOTO loop
+see:
+IF POINT(x+mx,y+my)=2 THEN bang
+IF POINT(x+mx,y+my)=3 THEN zu=zu+1:IF zu=10 THEN umkreis
+GOTO ld
+umkreis:
+BEEP:PRINT "Raumschiff umkreist den Planeten"
+GOTO ende
+bang:
+BEEP:PRINT "Boom"
+ende:
+IF MOUSE(0)<>0 THEN ende
+lc:
+IF MOUSE(0)=0 THEN lc
+km:
+IF MOUSE(0)<>0 THEN km
+GOTO ort

@@ -1,0 +1,123 @@
+DIM na$(100),w$(100),a$(100)
+n=0
+OPEN "/data/Telefonbuch" FOR INPUT AS 1
+WHILE NOT(EOF(1))
+ n=n+1
+ INPUT #1,na$(n),w$(n),a$(n)
+WEND
+CLOSE 1
+beg:
+SCREEN 2,640,256,2,2
+WINDOW 2,,,0,2
+loop:
+CLS
+LOCATE 3,1
+COLOR 3
+PRINT "F 1 ";
+COLOR 2
+PRINT "= ";
+COLOR 1
+PRINT "Textsuche ueber Namen"
+COLOR 3
+PRINT "F 2 ";
+COLOR 2
+PRINT "= ";
+COLOR 1
+PRINT "Namen eintragen"
+COLOR 3
+PRINT "F 3 ";
+COLOR 2
+PRINT "= ";
+COLOR 1
+PRINT "Namen loeschen"
+PRINT 
+COLOR 3
+PRINT "F10 ";
+COLOR 2
+PRINT "= ";
+COLOR 1
+PRINT "Beenden"
+wai:
+v$=INKEY$
+IF v$="" THEN wai
+IF v$=chr$(138) THEN SYSTEM
+IF v$=chr$(129) THEN searchString
+IF v$=chr$(130) THEN shuru
+IF v$=chr$(131) THEN del
+GOTO wai
+
+aktual:
+OPEN "/data/Telefonbuch" FOR OUTPUT AS 1
+FOR i=1 TO n
+ PRINT #1,na$(i)
+ PRINT #1,w$(i)
+ PRINT #1,a$(i)
+NEXT i
+CLOSE 1
+RETURN
+
+del:
+PRINT :PRINT :PRINT 
+INPUT "Name: ",o$
+i=1
+WHILE i<=n
+ IF o$=na$(i) THEN
+  na$(i)=na$(n)
+  w$(i)=w$(n)
+  a$(i)=a$(n)
+  n=n-1
+ END IF
+ i=i+1
+WEND
+GOSUB aktual
+GOTO loop
+
+shuru:
+PRINT :PRINT :PRINT 
+n=n+1
+INPUT "Name: ",na$(n)
+INPUT "Telephon: ",w$(n)
+INPUT "Adresse: ",a$(n)
+GOSUB aktual
+GOTO loop
+
+MouseWait:
+LOCATE 30,40
+COLOR 2
+PRINT "WAITING"
+FOR i=1 TO 20:v=MOUSE(0):NEXT i
+WHILE MOUSE(0)=0 AND INKEY$="":WEND
+RETURN
+
+searchString:
+LOCATE 10,1
+COLOR 3
+PRINT "Nach was suchen: ";
+COLOR 1
+INPUT "",a$
+a$=UCASE$(a$)
+a=LEN(a$)
+posi=15
+FOR i=1 TO n
+ b=LEN(na$(i))
+ b$=UCASE$(na$(i))
+ found=0
+ FOR ii=1 TO b-a+1
+  IF MID$(b$,ii,a)=a$ THEN ii=b-a+1:found=1
+ NEXT ii
+ IF found=1 THEN
+  LOCATE posi,3
+  COLOR 3
+  PRINT na$(i)
+  LOCATE posi,30
+  COLOR 1
+  PRINT w$(i)
+  LOCATE posi,45
+  COLOR 2
+  PRINT a$(i)
+  posi=posi+1
+ END IF
+NEXT i
+GOSUB MouseWait
+GOTO loop
+
